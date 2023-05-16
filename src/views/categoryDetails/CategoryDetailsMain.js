@@ -123,7 +123,7 @@ const CategoryDetailsMain = ({
 
     return (
         <MainCard
-            title={`${mainCategory.name}'s Sub Categories`}
+            title={mainCategory.name && `${mainCategory.name}'s Sub Categories`}
             btnText="+ Add"
             btnEvent={() => updateModalState(true)}
             sx={{ minHeight: '82vh' }}

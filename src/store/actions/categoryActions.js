@@ -19,6 +19,7 @@ import {
     GET_CATEGORIES,
     GET_CATEGORIES_ERROR,
     GET_CATEGORIES_SUCCESS,
+    GET_SUB_CATEGORIES,
     GET_SUB_CATEGORIES_ERROR,
     GET_SUB_CATEGORIES_SUCCESS,
     GET_SUB_CATEGORY_BY_ID,
@@ -206,7 +207,7 @@ export const changeSubCategorySelection = (category) => async (dispatch) => {
 export const getSubCategories = (_id) => async (dispatch) => {
     try {
         dispatch({
-            type: GET_SUB_CATEGORY_BY_ID
+            type: GET_SUB_CATEGORIES
         });
         const { data, status } = await API.get(`/category/${_id}`);
         console.log({ data });
