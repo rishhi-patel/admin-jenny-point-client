@@ -3,23 +3,22 @@ import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination, Icon
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MainCard from 'ui-component/cards/MainCard';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Box } from '@mui/system';
-import CreateCategoryModal from './CreateCategoryModal';
+import SubCategoryModal from './SubCategoryModal';
 import { connect } from 'react-redux';
 import {
-    changeCategorySelection,
-    changeModalState,
-    createCategory,
-    deleteCategory,
-    getCategories,
-    updateCategory
+    changeSubCategoryModalState,
+    changeSubCategorySelection,
+    createSubCategory,
+    deleteSubCategory,
+    getSubCategories,
+    updateSubCategory
 } from 'store/actions/categoryActions';
 import { useEffect } from 'react';
 import Loading from 'layout/loader/Loading';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: 'pre',
@@ -31,8 +30,7 @@ const StyledTable = styled(Table)(() => ({
     }
 }));
 
-const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById }) => {
-    const navigate = useNavigate();
+const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById, id }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -69,9 +67,6 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
                         horizontal: 'left'
                     }}
                 >
-                    <MenuItem onClick={() => navigate(category._id)}>
-                        <VisibilityIcon color="secondary" sx={{ mr: 1 }} /> View
-                    </MenuItem>
                     <MenuItem
                         onClick={() => {
                             setAnchorEl(null);
@@ -84,7 +79,7 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
                     <MenuItem
                         onClick={() => {
                             setAnchorEl(null);
-                            deleteCategoryById(category._id);
+                            deleteCategoryById(id, category._id);
                         }}
                     >
                         <DeleteIcon color="error" sx={{ mr: 1 }} />
@@ -96,18 +91,20 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
     );
 };
 
-const CategoriesMain = ({
+const CategoryDetailsMain = ({
     loading,
-    categoryList,
     fetchCategotires,
     createNewCategory,
-    categoryModalState,
     updateModalState,
-    selectedCategory,
     updateSelectedCategory,
     updateCategoryDetails,
-    deleteCategoryById
+    deleteCategoryById,
+    mainCategory,
+    selectedSubCategory,
+    subCategoryModalState
 }) => {
+    const { id } = useParams();
+    const { subCategory } = mainCategory;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -121,13 +118,13 @@ const CategoriesMain = ({
     };
 
     useEffect(() => {
-        fetchCategotires();
+        fetchCategotires(id);
     }, [fetchCategotires]);
 
     return (
         <MainCard
-            title="Categories"
-            btnText="+ Add Category"
+            title={`${mainCategory.name}'s Sub Categories`}
+            btnText="+ Add"
             btnEvent={() => updateModalState(true)}
             sx={{ minHeight: '82vh' }}
             contentSX={{ paddingBottom: '0 !important' }}
@@ -146,11 +143,12 @@ const CategoriesMain = ({
                                 </TableRow>
                             </TableHead>
                             <TableBody style={{ padding: '10px' }}>
-                                {categoryList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((category, i) => (
+                                {subCategory.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((category, i) => (
                                     <CandidateRows
                                         key={category._id}
                                         category={category}
                                         i={i}
+                                        id={id}
                                         updateSelectedCategory={updateSelectedCategory}
                                         deleteCategoryById={deleteCategoryById}
                                     />
@@ -159,12 +157,12 @@ const CategoriesMain = ({
                         </StyledTable>
                     </Box>
                     <TablePagination
-                        sx={{ px: 2 }}
+                        sx={{ py: 0 }}
                         page={page}
                         component="div"
                         className="page"
                         rowsPerPage={rowsPerPage}
-                        count={categoryList.length}
+                        count={subCategory.length}
                         onPageChange={handleChangePage}
                         rowsPerPageOptions={[5, 10, 25]}
                         onRowsPerPageChange={handleChangeRowsPerPage}
@@ -173,11 +171,11 @@ const CategoriesMain = ({
                     />
                 </>
             )}
-            <CreateCategoryModal
-                open={categoryModalState}
+            <SubCategoryModal
+                open={subCategoryModalState}
                 setOpen={updateModalState}
                 saveCategory={createNewCategory}
-                selectedCategory={selectedCategory}
+                selectedCategory={selectedSubCategory}
                 updateCategoryDetails={updateCategoryDetails}
             />
         </MainCard>
@@ -185,16 +183,16 @@ const CategoriesMain = ({
 };
 
 const mapStateToProps = ({ categories }) => {
-    const { loading, categories: categoryList, categoryModalState, selectedCategory } = categories;
-    return { loading, categoryList, categoryModalState, selectedCategory };
+    const { loading, mainCategory, selectedSubCategory, subCategoryModalState } = categories;
+    return { loading, mainCategory, selectedSubCategory, subCategoryModalState };
 };
 const mapDispatchToProps = (dispatch) => ({
-    fetchCategotires: () => dispatch(getCategories()),
-    createNewCategory: (data) => dispatch(createCategory(data)),
-    updateModalState: (status) => dispatch(changeModalState(status)),
-    updateSelectedCategory: (category) => dispatch(changeCategorySelection(category)),
-    updateCategoryDetails: (data, _id) => dispatch(updateCategory(data, _id)),
-    deleteCategoryById: (_id) => dispatch(deleteCategory(_id))
+    fetchCategotires: (_id) => dispatch(getSubCategories(_id)),
+    createNewCategory: (data, _id) => dispatch(createSubCategory(data, _id)),
+    updateModalState: (status) => dispatch(changeSubCategoryModalState(status)),
+    updateSelectedCategory: (category) => dispatch(changeSubCategorySelection(category)),
+    updateCategoryDetails: (data, parent_id, _id) => dispatch(updateSubCategory(data, parent_id, _id)),
+    deleteCategoryById: (parent_id, _id) => dispatch(deleteSubCategory(parent_id, _id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoriesMain);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryDetailsMain);

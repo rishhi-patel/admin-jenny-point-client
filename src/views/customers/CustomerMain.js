@@ -79,7 +79,7 @@ const CustomerMain = ({ getCandidateList, customers, loading, blockUser }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Box className="plan" style={{ overflowY: 'auto' }}>
+                <Box className="plan" style={{ overflowY: 'auto', minHeight: 'calc(100vh - 335px)' }}>
                     <StyledTable>
                         <TableHead>
                             <TableRow>

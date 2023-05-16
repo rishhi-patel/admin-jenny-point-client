@@ -52,7 +52,7 @@ const JobsMain = ({ getJobList, jobList, loading }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Box className="plan" style={{ overflowY: 'auto' }}>
+                <Box className="plan" style={{ overflowY: 'auto', minHeight: 'calc(100vh - 335px)' }}>
                     <StyledTable>
                         <TableHead>
                             <TableRow>

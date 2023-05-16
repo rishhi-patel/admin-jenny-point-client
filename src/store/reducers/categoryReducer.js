@@ -12,19 +12,39 @@ import {
     UPDATE_CATEGORY_BY_ID,
     UPDATE_CATEGORY_BY_ID_ERROR,
     UPDATE_CATEGORY_BY_ID_SUCCESS,
-    CHANGE_SELECTED_CATEGORY
+    CHANGE_SELECTED_CATEGORY,
+    CHANGE_SUB_CATEGORY_MODAL_STATE,
+    CREATE_SUB_CATEGORY,
+    CREATE_SUB_CATEGORY_ERROR,
+    CREATE_SUB_CATEGORY_SUCCESS,
+    GET_SUB_CATEGORIES,
+    GET_SUB_CATEGORIES_ERROR,
+    GET_SUB_CATEGORIES_SUCCESS,
+    DELETE_SUB_CATEGORY_BY_ID,
+    DELETE_SUB_CATEGORY_BY_ID_ERROR,
+    DELETE_SUB_CATEGORY_BY_ID_SUCCESS,
+    UPDATE_SUB_CATEGORY_BY_ID,
+    UPDATE_SUB_CATEGORY_BY_ID_ERROR,
+    UPDATE_SUB_CATEGORY_BY_ID_SUCCESS,
+    CHANGE_SELECTED_SUB_CATEGORY
 } from 'store/constant';
 
 export const initialState = {
     categories: [],
     categoryModalState: false,
     selectedCategory: null,
+
+    mainCategory: { subCategory: [] },
+    subCategoryModalState: false,
+    selectedSubCategory: null,
+
     loading: false
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
 const categoryReducer = (state = initialState, action) => {
+    console.log({ action: action.type });
     switch (action.type) {
         case CHANGE_CATEGORY_MODAL_STATE:
             return { ...state, categoryModalState: action.payload };
@@ -54,6 +74,35 @@ const categoryReducer = (state = initialState, action) => {
             return { ...state, categories: action.payload };
         case CHANGE_SELECTED_CATEGORY:
             return { ...state, selectedCategory: action.payload, categoryModalState: !state.categoryModalState };
+        //sub
+        case CHANGE_SUB_CATEGORY_MODAL_STATE:
+            return { ...state, subCategoryModalState: action.payload };
+        case GET_SUB_CATEGORIES:
+            return { ...state, loading: true };
+        case GET_SUB_CATEGORIES_SUCCESS:
+            return { ...state, loading: false, mainCategory: action.payload };
+        case GET_SUB_CATEGORIES_ERROR:
+            return { ...state, loading: false };
+        case CREATE_SUB_CATEGORY:
+            return { ...state };
+        case CREATE_SUB_CATEGORY_ERROR:
+            return { ...state };
+        case CREATE_SUB_CATEGORY_SUCCESS:
+            return { ...state, mainCategory: action.payload };
+        case DELETE_SUB_CATEGORY_BY_ID:
+            return { ...state, loading: true };
+        case DELETE_SUB_CATEGORY_BY_ID_ERROR:
+            return { ...state, loading: false };
+        case DELETE_SUB_CATEGORY_BY_ID_SUCCESS:
+            return { ...state, loading: false, mainCategory: action.payload };
+        case UPDATE_SUB_CATEGORY_BY_ID:
+            return { ...state };
+        case UPDATE_SUB_CATEGORY_BY_ID_ERROR:
+            return { ...state };
+        case UPDATE_SUB_CATEGORY_BY_ID_SUCCESS:
+            return { ...state, mainCategory: action.payload };
+        case CHANGE_SELECTED_SUB_CATEGORY:
+            return { ...state, selectedSubCategory: action.payload, subCategoryModalState: !state.subCategoryModalState };
         default:
             return { ...state };
     }

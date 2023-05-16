@@ -21,6 +21,7 @@ const Jobs = Loadable(lazy(() => import('views/jobs/JobsMain')));
 const JobDetailsMain = Loadable(lazy(() => import('views/jobDetails/JobDetailsMain')));
 const AddJobMain = Loadable(lazy(() => import('views/jobDetails/AddJobMain')));
 const Categories = Loadable(lazy(() => import('views/category/CategoriesMain')));
+const CategoryDetailsMain = Loadable(lazy(() => import('views/categoryDetails/CategoryDetailsMain')));
 // const customerDetails = Loadable(lazy(() => import()));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -59,6 +60,10 @@ const MainRoutes = {
                 {
                     path: 'category',
                     element: <Categories />
+                },
+                {
+                    path: 'category/:id',
+                    element: <CategoryDetailsMain />
                 }
             ]
         },

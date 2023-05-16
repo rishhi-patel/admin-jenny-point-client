@@ -22,7 +22,8 @@ const style = {
 
 export default function CreateCategoryModal({ open, setOpen, saveCategory, selectedCategory, updateCategoryDetails }) {
     const [image, setImage] = useState(null);
-    const [categoryDetails, setCategoryDetails] = useState({ name, image: null });
+    const [categoryDetails, setCategoryDetails] = useState({ name: '', image: null });
+
     const handleClose = () => {
         setOpen(false);
         setImage(null);
@@ -43,6 +44,12 @@ export default function CreateCategoryModal({ open, setOpen, saveCategory, selec
         }
     }, [selectedCategory]);
 
+    useEffect(() => {
+        if (!open) {
+            setCategoryDetails({ name: '', image: null });
+            setImage(null);
+        }
+    }, [open]);
     const handleSaveData = () => {
         const formData = new FormData();
         formData.append('name', categoryDetails.name);
@@ -55,7 +62,7 @@ export default function CreateCategoryModal({ open, setOpen, saveCategory, selec
         <div>
             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                    <Typography variant="h3">Create Category</Typography>
+                    <Typography variant="h3">Category</Typography>
                     {image ? (
                         <>
                             <IconButton
