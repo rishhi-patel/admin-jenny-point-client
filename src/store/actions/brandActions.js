@@ -48,7 +48,6 @@ export const getBrands = () => async (dispatch) => {
 
         if (status === 200) {
             const { data: categories } = data;
-            console.log({ categories });
             dispatch({
                 type: GET_BRANDS_SUCCESS,
                 payload: categories
@@ -161,7 +160,6 @@ export const updateBrand = (formData, _id) => async (dispatch) => {
             });
         }
     } catch (err) {
-        console.log({ err });
         Notification('error');
         dispatch({
             type: UPDATE_BRAND_BY_ID_ERROR

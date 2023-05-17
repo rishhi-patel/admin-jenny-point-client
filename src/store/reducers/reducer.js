@@ -6,6 +6,7 @@ import userReducer from './userReducer';
 import categoryReducer from './categoryReducer';
 import jobReducer from './jobReducer';
 import brandReducer from './brandReducer';
+import productReducer from './productReducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -14,7 +15,8 @@ const reducer = combineReducers({
     user: userReducer,
     categories: categoryReducer,
     jobs: jobReducer,
-    brands: brandReducer
+    brands: brandReducer,
+    products: productReducer
 });
 
 export default reducer;

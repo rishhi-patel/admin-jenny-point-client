@@ -1,6 +1,7 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import GroupIcon from '@mui/icons-material/Group';
 import GridViewIcon from '@mui/icons-material/GridView';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
@@ -17,7 +18,7 @@ const other = {
         // },
         {
             id: 'customers',
-            title: 'Customer',
+            title: 'Customers',
             type: 'item',
             url: '/dashboard/customers',
             icon: GroupIcon,
@@ -37,6 +38,14 @@ const other = {
             type: 'item',
             url: '/dashboard/brands ',
             icon: GridViewIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'products',
+            title: 'Products',
+            type: 'item',
+            url: '/dashboard/products ',
+            icon: ShoppingBagIcon,
             breadcrumbs: false
         }
     ]
