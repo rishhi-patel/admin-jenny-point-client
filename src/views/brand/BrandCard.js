@@ -11,8 +11,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Box } from '@mui/system';
 
-export default function CategoryCard({ category, updateSelectedCategory, deleteCategoryById }) {
-    const { image, name } = category;
+export default function BrandCard({ brand, updateSelectedBrand, deleteBrandById }) {
+    const { image, name } = brand;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -45,7 +45,7 @@ export default function CategoryCard({ category, updateSelectedCategory, deleteC
                     color="secondary"
                     size="small"
                     sx={{ width: '45%' }}
-                    onClick={() => updateSelectedCategory(category)}
+                    onClick={() => updateSelectedBrand(brand)}
                 >
                     Edit
                 </Button>
@@ -56,7 +56,7 @@ export default function CategoryCard({ category, updateSelectedCategory, deleteC
                     color="error"
                     size="small"
                     sx={{ width: '45%' }}
-                    onClick={() => deleteCategoryById(category._id)}
+                    onClick={() => deleteBrandById(brand._id)}
                 >
                     Delete
                 </Button>

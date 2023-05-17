@@ -1,6 +1,6 @@
-// assets
-import { IconUserCircle, IconBriefcase, IconBoxMultiple, IconDashboard } from '@tabler/icons';
-
+import CategoryIcon from '@mui/icons-material/Category';
+import GroupIcon from '@mui/icons-material/Group';
+import GridViewIcon from '@mui/icons-material/GridView';
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
@@ -20,7 +20,7 @@ const other = {
             title: 'Customer',
             type: 'item',
             url: '/dashboard/customers',
-            icon: IconUserCircle,
+            icon: GroupIcon,
             breadcrumbs: false
         },
         {
@@ -28,17 +28,17 @@ const other = {
             title: 'Categories',
             type: 'item',
             url: '/dashboard/category',
-            icon: IconBoxMultiple,
+            icon: CategoryIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'brands',
+            title: 'Brands',
+            type: 'item',
+            url: '/dashboard/brands ',
+            icon: GridViewIcon,
             breadcrumbs: false
         }
-        // {
-        //     id: 'jobs',
-        //     title: 'Jobs',
-        //     type: 'item',
-        //     url: '/dashboard/jobs ',
-        //     icon: IconBriefcase,
-        //     breadcrumbs: false
-        // }
     ]
 };
 

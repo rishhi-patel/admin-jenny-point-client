@@ -59,7 +59,7 @@ const categoryReducer = (state = initialState, action) => {
         case CREATE_CATEGORY_ERROR:
             return { ...state };
         case CREATE_CATEGORY_SUCCESS:
-            return { ...state, categories: [action.payload, ...state.categories] };
+            return { ...state, categories: [action.payload, ...state.categories], selectedCategory: null };
         case DELETE_CATEGORY_BY_ID:
             return { ...state, loading: true };
         case DELETE_CATEGORY_BY_ID_ERROR:
@@ -71,7 +71,7 @@ const categoryReducer = (state = initialState, action) => {
         case UPDATE_CATEGORY_BY_ID_ERROR:
             return { ...state };
         case UPDATE_CATEGORY_BY_ID_SUCCESS:
-            return { ...state, categories: action.payload };
+            return { ...state, categories: action.payload, selectedCategory: null };
         case CHANGE_SELECTED_CATEGORY:
             return { ...state, selectedCategory: action.payload, categoryModalState: !state.categoryModalState };
         //sub
@@ -88,7 +88,7 @@ const categoryReducer = (state = initialState, action) => {
         case CREATE_SUB_CATEGORY_ERROR:
             return { ...state };
         case CREATE_SUB_CATEGORY_SUCCESS:
-            return { ...state, mainCategory: action.payload };
+            return { ...state, mainCategory: action.payload, selectedSubCategory: null };
         case DELETE_SUB_CATEGORY_BY_ID:
             return { ...state, loading: true };
         case DELETE_SUB_CATEGORY_BY_ID_ERROR:
@@ -100,7 +100,7 @@ const categoryReducer = (state = initialState, action) => {
         case UPDATE_SUB_CATEGORY_BY_ID_ERROR:
             return { ...state };
         case UPDATE_SUB_CATEGORY_BY_ID_SUCCESS:
-            return { ...state, mainCategory: action.payload };
+            return { ...state, mainCategory: action.payload, selectedSubCategory: null };
         case CHANGE_SELECTED_SUB_CATEGORY:
             return { ...state, selectedSubCategory: action.payload, subCategoryModalState: !state.subCategoryModalState };
         default:
