@@ -3,15 +3,12 @@ import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import ProductDetailsForm from './ProductDetailsForm';
 import { useParams } from 'react-router';
-import { getProductById, updateProduct } from 'store/actions/productActions';
+import { createProduct, getProductById, updateProduct } from 'store/actions/productActions';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Loading from 'layout/loader/Loading';
 
-const ProductDetails = ({ getProductDetails, selectedProduct, loading, updateProduct }) => {
-    const { id } = useParams();
-    const [readOnly, setReadOnly] = useState(true);
-
+const CreateNewProduct = ({ loading, createNewProduct }) => {
     const [productDetails, setProductDetails] = useState({
         name: '',
         images: [
@@ -26,41 +23,19 @@ const ProductDetails = ({ getProductDetails, selectedProduct, loading, updatePro
         subCategory: '',
         description: '',
         discount: '',
-        isTrending: false,
         productCode: '',
         price: '',
         minQuantity: 1
     });
 
-    useEffect(() => {
-        getProductDetails(id);
-    }, [getProductDetails, id]);
-
-    useEffect(() => {
-        setProductDetails((oldState) => {
-            return {
-                ...oldState,
-                ...selectedProduct
-            };
-        });
-    }, [selectedProduct]);
-
     return (
         <MainCard
-            title="Product Details"
+            title="Create Product"
             contentSX={{ padding: 0 }}
-            btnText={readOnly ? 'Edit' : 'Save'}
+            btnText={'Save'}
             btnEvent={() => {
-                setReadOnly(false);
-                if (!readOnly) {
-                    const btn = document.getElementById('customerSubmit');
-                    if (btn) btn.click();
-                }
-            }}
-            cancelBtn={!readOnly}
-            cancelBtnEvent={() => {
-                setReadOnly(!readOnly);
-                setProductDetails(selectedProduct);
+                const btn = document.getElementById('customerSubmit');
+                if (btn) btn.click();
             }}
         >
             {loading ? (
@@ -69,9 +44,7 @@ const ProductDetails = ({ getProductDetails, selectedProduct, loading, updatePro
                 <ProductDetailsForm
                     productDetails={productDetails}
                     setProductDetails={setProductDetails}
-                    readOnly={readOnly}
-                    setReadOnly={setReadOnly}
-                    updateProduct={updateProduct}
+                    createNewProduct={createNewProduct}
                 />
             )}
         </MainCard>
@@ -84,7 +57,7 @@ const mapStateToProps = ({ products }) => {
 };
 const mapDispatchToProps = (dispatch) => ({
     getProductDetails: (id) => dispatch(getProductById(id)),
-    updateProduct: (_id, ProductDetails, navigate) => dispatch(updateProduct(_id, ProductDetails, navigate))
+    createNewProduct: (ProductDetails, navigate) => dispatch(createProduct(ProductDetails, navigate))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNewProduct);

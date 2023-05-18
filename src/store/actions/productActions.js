@@ -9,6 +9,9 @@ import {
     GET_PRODUCTS,
     GET_PRODUCTS_ERROR,
     GET_PRODUCTS_SUCCESS,
+    GET_PRODUCT_BY_ID,
+    GET_PRODUCT_BY_ID_ERROR,
+    GET_PRODUCT_BY_ID_SUCCESS,
     UPDATE_PRODUCT_BY_ID,
     UPDATE_PRODUCT_BY_ID_ERROR,
     UPDATE_PRODUCT_BY_ID_SUCCESS
@@ -41,15 +44,39 @@ export const getProducts = () => async (dispatch) => {
         });
     }
 };
+export const getProductById = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_PRODUCT_BY_ID
+        });
+        const { data, status } = await API.get(`/product/${_id}`);
 
-export const createProduct = (details) => async (dispatch) => {
+        if (status === 200) {
+            const { data: product } = data;
+            dispatch({
+                type: GET_PRODUCT_BY_ID_SUCCESS,
+                payload: product
+            });
+        } else {
+            Notification('error');
+            dispatch({
+                type: GET_PRODUCT_BY_ID_ERROR
+            });
+        }
+    } catch (error) {
+        Notification('error');
+        dispatch({
+            type: GET_PRODUCT_BY_ID_ERROR
+        });
+    }
+};
+
+export const createProduct = (details, navigate) => async (dispatch) => {
     try {
         dispatch({
             type: CREATE_PRODUCT
         });
-        const { data, status } = await API.post('/product', details, {
-            headers: headers
-        });
+        const { data, status } = await API.post('/product', details);
 
         if (status === 201) {
             const { data: product, message } = data;
@@ -59,6 +86,7 @@ export const createProduct = (details) => async (dispatch) => {
             });
 
             Notification('success', message);
+            navigate('/dashboard/products');
         } else {
             const { message } = data;
             Notification('error', message);
@@ -104,7 +132,7 @@ export const deleteProduct = (_id) => async (dispatch) => {
     }
 };
 
-export const updateProduct = (formData, _id) => async (dispatch) => {
+export const updateProduct = (_id, ProductDetails, navigate) => async (dispatch) => {
     try {
         dispatch({
             type: UPDATE_PRODUCT_BY_ID
@@ -112,9 +140,7 @@ export const updateProduct = (formData, _id) => async (dispatch) => {
         const {
             data: { data, message },
             status
-        } = await API.put(`/product/${_id}`, formData, {
-            headers: headers
-        });
+        } = await API.put(`/product/${_id}`, ProductDetails);
 
         if (status === 200) {
             dispatch({
@@ -123,6 +149,7 @@ export const updateProduct = (formData, _id) => async (dispatch) => {
             });
 
             Notification('success', message);
+            navigate('/dashboard/products');
         } else {
             Notification('error', message);
             dispatch({

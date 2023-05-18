@@ -24,6 +24,8 @@ const Categories = Loadable(lazy(() => import('views/category/CategoriesMain')))
 const CategoryDetailsMain = Loadable(lazy(() => import('views/categoryDetails/CategoryDetailsMain')));
 const BrandMain = Loadable(lazy(() => import('views/brand/BrandMain')));
 const ProductsMain = Loadable(lazy(() => import('views/product/ProductsMain')));
+const ProductDetails = Loadable(lazy(() => import('views/productDetails/ProductDetailsMain')));
+const CreateNewProduct = Loadable(lazy(() => import('views/productDetails/CreateNewProduct')));
 // const customerDetails = Loadable(lazy(() => import()));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -74,6 +76,14 @@ const MainRoutes = {
                 {
                     path: 'products',
                     element: <ProductsMain />
+                },
+                {
+                    path: 'products/new',
+                    element: <CreateNewProduct />
+                },
+                {
+                    path: 'products/:id',
+                    element: <ProductDetails />
                 }
             ]
         },

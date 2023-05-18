@@ -44,7 +44,6 @@ export const initialState = {
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
 const categoryReducer = (state = initialState, action) => {
-    console.log({ action: action.type });
     switch (action.type) {
         case CHANGE_CATEGORY_MODAL_STATE:
             return { ...state, categoryModalState: action.payload };

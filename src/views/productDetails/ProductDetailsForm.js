@@ -1,69 +1,154 @@
 // IMPORTS
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
-import { FormHelperText, Grid } from '@mui/material';
+import { FormHelperText, Grid, IconButton, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import CustomInput from './CustomInput';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
+import CustomInput from 'views/customerDetails/CustomInput';
+import { useTheme } from '@emotion/react';
+import { Upload } from 'utils/Upload';
+import API from 'API';
+
 //APP
-export default function SettingsCard({ userDetails, readOnly, setReadOnly, updateCandidate }) {
+
+const shifts = [
+    {
+        value: 'first',
+        label: 'First'
+    },
+    {
+        value: 'second',
+        label: 'Second'
+    },
+    {
+        value: 'night',
+        label: 'night'
+    }
+];
+
+export default function ProductDetailsForm({ productDetails, readOnly, updateProduct, setProductDetails, createNewProduct }) {
     //TAB STATES
     const navigate = useNavigate();
-    const [value, setValue] = React.useState('one');
-    const handleChange = (even, newValue) => {
-        setValue(newValue);
-    };
+    const { images, category, subCategory: sub, brand } = productDetails;
 
-    // GENDER SELECT STATES
+    const [categoryList, setcategoryList] = useState([]);
+    const [subCategories, setsubCategories] = useState([]);
+    const [brandList, setBrandList] = useState([]);
+    const [activeCategory, setActiveCategory] = useState(null);
 
-    // FORM STATES
+    useEffect(() => {
+        (async () => {
+            const {
+                data: { data }
+            } = await API.get('/brand');
 
-    //BUTTON STATES
-    const [edit, update] = useState({
-        required: true,
-        disabled: true,
-        isEdit: true
-    });
+            const list = [{ value: brand, label: brand }, ...data];
+            const unique = list.filter((obj, index) => {
+                return index === list.findIndex((o) => obj.id === o.id && obj.name === o.name);
+            });
+            setBrandList(
+                unique.map((elem) => {
+                    return { value: elem.name, label: elem.name };
+                })
+            );
+        })();
+    }, [productDetails]);
 
-    // EDIT -> UPDATE
+    useEffect(() => {
+        (async () => {
+            const {
+                data: { data }
+            } = await API.get('/category');
 
-    // TOGGLE PASSWORD VISIBILITY
+            const list = [{ value: category, label: category }, ...data];
+            const unique = list.filter((obj, index) => {
+                return index === list.findIndex((o) => obj.id === o.id && obj.name === o.name);
+            });
+            setcategoryList(
+                unique.map((elem) => {
+                    return { value: elem.name, label: elem.name };
+                })
+            );
+            setsubCategories([{ value: sub, label: sub }]);
+        })();
+    }, [productDetails]);
 
-    //RETURN
+    useEffect(() => {
+        (async () => {
+            const keyword = activeCategory || category;
+            if (keyword) {
+                const {
+                    data: { data }
+                } = await API.get('/category', { params: { keyword } });
+                const { subCategory } = data[0];
+                const list = [{ value: sub, label: sub }, ...subCategory];
+                const unique = list.filter((obj, index) => {
+                    return index === list.findIndex((o) => obj.id === o.id && obj.name === o.name);
+                });
+
+                setsubCategories(
+                    unique.map((elem) => {
+                        return { value: elem.name, label: elem.name };
+                    })
+                );
+            }
+        })();
+    }, [activeCategory, productDetails]);
+
     return (
         <Card variant="outlined" sx={{ height: '100%', width: '100%', padding: 0, border: 'none' }}>
             <Formik
                 initialValues={{
-                    ...userDetails
+                    ...productDetails
                 }}
                 enableReinitialize
                 validationSchema={Yup.object().shape({
-                    name: Yup.string().max(255).required('Name Name is required'),
-                    email: Yup.string().max(255).required('email Name is required'),
-                    mobileNo: Yup.string().max(255).required('mobileNo Name is required'),
-                    address: Yup.string().max(255).required('address Name is required')
+                    name: Yup.string().max(255).required('Name is required'),
+                    brand: Yup.string().max(255).required('Brand is required'),
+                    category: Yup.string().max(255).required('Category is required'),
+                    subCategory: Yup.string().max(255).required('Sub Category is required'),
+                    description: Yup.string().max(255).required('Description is required'),
+                    productCode: Yup.string().max(255).required('ProductCode is required'),
+                    price: Yup.string().max(255).required('Price is required'),
+                    images: Yup.lazy((value) => {
+                        if (!value[0].url) {
+                            return Yup.array().of(
+                                Yup.object().shape({
+                                    key: Yup.string().required()
+                                })
+                            );
+                        }
+                        return Yup.array().of(
+                            Yup.object().shape({
+                                key: Yup.string()
+                            })
+                        );
+                    })
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        const { name, email, isBlocked, mobileNo, address } = values;
-                        updateCandidate(
-                            userDetails._id,
-                            {
-                                name,
-                                email,
-                                isBlocked,
-                                mobileNo,
-                                address
-                            },
-                            navigate
-                        );
-                        setReadOnly(true);
+                        if (createNewProduct) {
+                            createNewProduct(
+                                {
+                                    ...values
+                                },
+                                navigate
+                            );
+                        } else {
+                            updateProduct(
+                                productDetails._id,
+                                {
+                                    ...values
+                                },
+                                navigate
+                            );
+                        }
                     } catch (err) {
                         setStatus({ success: false });
                         setErrors({ submit: err.message });
@@ -73,17 +158,35 @@ export default function SettingsCard({ userDetails, readOnly, setReadOnly, updat
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
+                        {console.log({ errors, handleBlur, handleChange, handleSubmit, touched, values })}
                         <CardContent
                             sx={{
                                 p: 3,
-                                // maxHeight: { md: '40vh' },
                                 textAlign: { xs: 'center', md: 'start' }
                             }}
                         >
-                            {/* FIELDS */}
-
                             <FormControl fullWidth>
                                 <Grid container direction={{ xs: 'column', md: 'row' }} columnSpacing={5} rowSpacing={3}>
+                                    <Grid component="form" item xs={12}>
+                                        <label style={{ fontWeight: 'bold' }} htmlFor={'images'}>
+                                            Images
+                                        </label>
+                                        <Grid container rowSpacing={3} sx={{ justifyContent: 'space-between', paddingTop: '8px' }}>
+                                            {images.map((img, i) => (
+                                                <Grid component="form" item xs={12} lg={2} sx={{ height: 200 }}>
+                                                    <Upload
+                                                        imgData={img}
+                                                        updateImage={setProductDetails}
+                                                        index={i}
+                                                        disabled={readOnly}
+                                                        error={errors.images}
+                                                        values={values}
+                                                    />
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    </Grid>
+
                                     <Grid component="form" item xs={6}>
                                         <CustomInput
                                             id="name"
@@ -100,56 +203,145 @@ export default function SettingsCard({ userDetails, readOnly, setReadOnly, updat
                                                 {errors.name}
                                             </FormHelperText>
                                         )}
+                                    </Grid>
+                                    <Grid item xs={6}>
                                         <CustomInput
-                                            id="phone"
-                                            name="mobileNo"
-                                            value={values.mobileNo}
-                                            // onChange={changeField}
-                                            title="Phone No."
-                                            disabled
-                                            error={touched.mobileNo && errors.mobileNo}
+                                            select
+                                            id="brand"
+                                            name="brand"
                                             onBlur={handleBlur}
-                                            onChange={handleChange}
-                                        />
-                                        {touched.mobileNo && errors.mobileNo && (
-                                            <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.mobileNo}
-                                            </FormHelperText>
-                                        )}
-                                        <CustomInput
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            value={values.email}
-                                            // onChange={changeField}
-                                            title="Email Address"
+                                            onChange={(e) => {
+                                                handleChange(e);
+                                                setActiveCategory(e.target.value);
+                                            }}
                                             disabled={readOnly}
-                                            error={touched.email && errors.email}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
+                                            title="Brand"
+                                            value={values.brand}
+                                            error={touched.brand && errors.brand}
+                                            content={brandList.map((option) => (
+                                                <MenuItem value={option.value}>{option.label}</MenuItem>
+                                            ))}
                                         />
-                                        {touched.email && errors.email && (
+                                        {touched.brand && errors.brand && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.email}
+                                                {errors.brand}
                                             </FormHelperText>
                                         )}
                                     </Grid>
 
                                     <Grid item xs={6}>
                                         <CustomInput
-                                            id="Address"
-                                            name="address"
+                                            select
+                                            id="category"
+                                            name="category"
+                                            onBlur={handleBlur}
+                                            onChange={(e) => {
+                                                handleChange(e);
+                                                setActiveCategory(e.target.value);
+                                            }}
+                                            disabled={readOnly}
+                                            title="Category"
+                                            value={values.category}
+                                            error={touched.category && errors.category}
+                                            content={categoryList.map((option) => (
+                                                <MenuItem value={option.value}>{option.label}</MenuItem>
+                                            ))}
+                                        />
+                                        {touched.category && errors.category && (
+                                            <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                {errors.category}
+                                            </FormHelperText>
+                                        )}
+                                    </Grid>
+
+                                    <Grid item xs={6}>
+                                        <CustomInput
+                                            select
+                                            id="subCategory"
+                                            name="subCategory"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             disabled={readOnly}
-                                            value={values.address}
-                                            title="Address"
+                                            title="Sub Category"
+                                            value={values.subCategory}
+                                            error={touched.subCategory && errors.subCategory}
+                                            content={subCategories.map((option) => (
+                                                <MenuItem value={option.value}>{option.label}</MenuItem>
+                                            ))}
+                                        />{' '}
+                                        {touched.subCategory && errors.subCategory && (
+                                            <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                {errors.subCategory}
+                                            </FormHelperText>
+                                        )}
+                                    </Grid>
+                                    <Grid component="form" item xs={6}>
+                                        <CustomInput
+                                            id="productCode"
+                                            name="productCode"
+                                            value={values.productCode}
+                                            title="Product Code"
+                                            disabled={readOnly}
+                                            error={touched.productCode && errors.productCode}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                        />
+                                        {touched.productCode && errors.productCode && (
+                                            <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                {errors.productCode}
+                                            </FormHelperText>
+                                        )}
+                                        <CustomInput
+                                            id="phone"
+                                            type="number"
+                                            name="price"
+                                            value={values.price}
+                                            // onChange={changeField}
+                                            title="Price"
+                                            disabled={readOnly}
+                                            error={touched.price && errors.price}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                        />
+                                        {touched.price && errors.price && (
+                                            <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                {errors.price}
+                                            </FormHelperText>
+                                        )}
+                                        <CustomInput
+                                            id="minQuantity"
+                                            name="minQuantity"
+                                            type="number"
+                                            value={values.minQuantity}
+                                            // onChange={changeField}
+                                            title="Minimum Quantity"
+                                            disabled={readOnly}
+                                            error={touched.minQuantity && errors.minQuantity}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                        />
+                                        {touched.minQuantity && errors.minQuantity && (
+                                            <FormHelperText error id="standard-weight-helper-text-minQuantity-login">
+                                                {errors.minQuantity}
+                                            </FormHelperText>
+                                        )}
+                                    </Grid>
+
+                                    <Grid item xs={6}>
+                                        <CustomInput
+                                            id="Description"
+                                            name="description"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            disabled={readOnly}
+                                            value={values.description}
+                                            title="Product Description"
                                             multiline
                                             minRows={8}
                                         />{' '}
-                                        {touched.address && errors.address && (
+                                        {touched.description && errors.description && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.address}
+                                                {errors.description}
                                             </FormHelperText>
                                         )}
                                     </Grid>

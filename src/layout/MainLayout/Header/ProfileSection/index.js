@@ -48,7 +48,6 @@ const style = {
 };
 
 const ProfileSection = ({ userDetails }) => {
-    console.log({ userDetails });
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
