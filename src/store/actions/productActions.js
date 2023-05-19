@@ -18,12 +18,12 @@ import {
 } from 'store/constant';
 import Notification from 'utils/Notification';
 
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (query) => async (dispatch) => {
     try {
         dispatch({
             type: GET_PRODUCTS
         });
-        const { data, status } = await API.get('/product');
+        const { data, status } = await API.get('/product', query);
 
         if (status === 200) {
             const { data: products } = data;

@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination, IconButton, Menu, MenuItem } from '@mui/material';
+import {
+    Table,
+    TableCell,
+    TableHead,
+    TableRow,
+    TableBody,
+    TablePagination,
+    IconButton,
+    Menu,
+    MenuItem,
+    Grid,
+    InputAdornment
+} from '@mui/material';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MainCard from 'ui-component/cards/MainCard';
@@ -20,6 +32,8 @@ import { useEffect } from 'react';
 import Loading from 'layout/loader/Loading';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router';
+import CustomInput from 'views/customerDetails/CustomInput';
+import SearchIcon from '@mui/icons-material/Search';
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: 'pre',
@@ -110,6 +124,8 @@ const CategoriesMain = ({
 }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [keyword, setKeyword] = useState('');
+    const [compLoaded, setCompLoaded] = useState(false);
 
     const handleChangePage = (_, newPage) => {
         setPage(newPage);
@@ -121,8 +137,18 @@ const CategoriesMain = ({
     };
 
     useEffect(() => {
-        fetchCategotires();
-    }, [fetchCategotires]);
+        fetchCategotires({ params: { keyword } });
+        setCompLoaded(true);
+    }, []);
+
+    useEffect(() => {
+        if (compLoaded) {
+            const setData = setTimeout(() => {
+                fetchCategotires({ params: { keyword } });
+            }, 1000);
+            return () => clearTimeout(setData);
+        }
+    }, [keyword]);
 
     return (
         <MainCard
@@ -132,54 +158,71 @@ const CategoriesMain = ({
             sx={{ minHeight: '82vh' }}
             contentSX={{ paddingBottom: '0 !important' }}
         >
-            {loading ? (
-                <Loading />
-            ) : (
-                <>
-                    <Box className="plan" style={{ overflowY: 'auto', minHeight: 'calc(100vh - 335px)' }}>
-                        <StyledTable>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">No.</TableCell>
-                                    <TableCell align="center">Name</TableCell>
-                                    <TableCell align="center">Actions</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody style={{ padding: '10px' }}>
-                                {categoryList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((category, i) => (
-                                    <CandidateRows
-                                        key={category._id}
-                                        category={category}
-                                        i={i}
-                                        updateSelectedCategory={updateSelectedCategory}
-                                        deleteCategoryById={deleteCategoryById}
-                                    />
-                                ))}
-                            </TableBody>
-                        </StyledTable>
-                    </Box>
-                    <TablePagination
-                        sx={{ px: 2 }}
-                        page={page}
-                        component="div"
-                        className="page"
-                        rowsPerPage={rowsPerPage}
-                        count={categoryList.length}
-                        onPageChange={handleChangePage}
-                        rowsPerPageOptions={[5, 10, 25]}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                        nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-                        backIconButtonProps={{ 'aria-label': 'Previous Page' }}
-                    />
-                </>
-            )}
-            <CreateCategoryModal
-                open={categoryModalState}
-                setOpen={updateModalState}
-                saveCategory={createNewCategory}
-                selectedCategory={selectedCategory}
-                updateCategoryDetails={updateCategoryDetails}
-            />
+            <>
+                <Grid container>
+                    <Grid item xs={12} sm={6} xl={7} />
+                    <Grid item xs={12} sm={6} xl={5}>
+                        <CustomInput
+                            onChange={(e) => setKeyword(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+                {loading ? (
+                    <Loading />
+                ) : (
+                    <>
+                        <Box className="plan" style={{ overflowY: 'auto', minHeight: 'calc(100vh - 365px)' }}>
+                            <StyledTable>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">No.</TableCell>
+                                        <TableCell align="center">Name</TableCell>
+                                        <TableCell align="center">Actions</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody style={{ padding: '10px' }}>
+                                    {categoryList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((category, i) => (
+                                        <CandidateRows
+                                            key={category._id}
+                                            category={category}
+                                            i={i}
+                                            updateSelectedCategory={updateSelectedCategory}
+                                            deleteCategoryById={deleteCategoryById}
+                                        />
+                                    ))}
+                                </TableBody>
+                            </StyledTable>
+                        </Box>
+                        <TablePagination
+                            sx={{ px: 2 }}
+                            page={page}
+                            component="div"
+                            className="page"
+                            rowsPerPage={rowsPerPage}
+                            count={categoryList.length}
+                            onPageChange={handleChangePage}
+                            rowsPerPageOptions={[5, 10, 25]}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+                            backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+                        />
+                    </>
+                )}
+                <CreateCategoryModal
+                    open={categoryModalState}
+                    setOpen={updateModalState}
+                    saveCategory={createNewCategory}
+                    selectedCategory={selectedCategory}
+                    updateCategoryDetails={updateCategoryDetails}
+                />
+            </>
         </MainCard>
     );
 };
@@ -189,7 +232,7 @@ const mapStateToProps = ({ categories }) => {
     return { loading, categoryList, categoryModalState, selectedCategory };
 };
 const mapDispatchToProps = (dispatch) => ({
-    fetchCategotires: () => dispatch(getCategories()),
+    fetchCategotires: (query) => dispatch(getCategories(query)),
     createNewCategory: (data) => dispatch(createCategory(data)),
     updateModalState: (status) => dispatch(changeModalState(status)),
     updateSelectedCategory: (category) => dispatch(changeCategorySelection(category)),

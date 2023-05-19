@@ -54,12 +54,12 @@ export const changeCategorySelection = (category) => async (dispatch) => {
     });
 };
 
-export const getCategories = () => async (dispatch) => {
+export const getCategories = (query) => async (dispatch) => {
     try {
         dispatch({
             type: GET_CATEGORIES
         });
-        const { data, status } = await API.get('/category');
+        const { data, status } = await API.get('/category', query);
 
         if (status === 200) {
             const { data: categories } = data;

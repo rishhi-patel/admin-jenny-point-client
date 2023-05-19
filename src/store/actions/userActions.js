@@ -70,12 +70,12 @@ export const getUserDetails = (navigate) => async (dispatch) => {
     }
 };
 
-export const getCustomer = () => async (dispatch) => {
+export const getCustomer = (query) => async (dispatch) => {
     try {
         dispatch({
             type: GET_CANDIDATES
         });
-        const { data, status } = await API.get('/user');
+        const { data, status } = await API.get('/user', query);
 
         if (status === 200) {
             const { data: customers } = data;

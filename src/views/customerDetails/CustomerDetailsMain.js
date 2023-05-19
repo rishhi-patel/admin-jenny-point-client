@@ -32,19 +32,19 @@ const customerDetails = ({ getCandidateDetails, selectedCandidate, loading, upda
         <MainCard
             title="Customer Details"
             contentSX={{ padding: 0 }}
-            btnText={readOnly ? 'Edit' : 'Save'}
-            btnEvent={() => {
-                setReadOnly(false);
-                if (!readOnly) {
-                    const btn = document.getElementById('customerSubmit');
-                    if (btn) btn.click();
-                }
-            }}
-            cancelBtn={!readOnly}
-            cancelBtnEvent={() => {
-                setReadOnly(!readOnly);
-                setUserDetails(selectedCandidate);
-            }}
+            // btnText={readOnly ? 'Edit' : 'Save'}
+            // btnEvent={() => {
+            //     setReadOnly(false);
+            //     if (!readOnly) {
+            //         const btn = document.getElementById('customerSubmit');
+            //         if (btn) btn.click();
+            //     }
+            // }}
+            // cancelBtn={!readOnly}
+            // cancelBtnEvent={() => {
+            //     setReadOnly(!readOnly);
+            //     setUserDetails(selectedCandidate);
+            // }}
         >
             {loading ? (
                 <Loading />
