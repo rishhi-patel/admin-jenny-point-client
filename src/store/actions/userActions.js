@@ -35,7 +35,7 @@ export const authUser = (value, navigate) => async (dispatch) => {
             });
             localStorage.setItem('auth_token', token);
             setTimeout(() => {
-                window.location.href = '/dashboard/customers';
+                window.location.href = '/dashboard/category';
             }, 500);
         } else {
             dispatch({
@@ -75,7 +75,7 @@ export const getCustomer = (query) => async (dispatch) => {
         dispatch({
             type: GET_CANDIDATES
         });
-        const { data, status } = await API.get('/user?userType=customer', query);
+        const { data, status } = await API.get(`/user`, query);
 
         if (status === 200) {
             const { data: customers } = data;
@@ -150,7 +150,7 @@ export const verifyOTP = (userData, navigate) => async (dispatch) => {
             Notification('success', message);
             localStorage.setItem('auth_token', token);
             setTimeout(() => {
-                window.location.href = '/dashboard/customers';
+                window.location.href = '/dashboard/category';
             }, 500);
             // navigate(`/dashboard/category`);
         } else {
@@ -205,7 +205,7 @@ export const updateCandidateDetails = (_id, customerDetails, navigate) => async 
         } = await API.put(`/user/${_id}`, customerDetails);
         if (status === 200) {
             Notification('success', message);
-            navigate('/dashboard/customers');
+            navigate('/dashboard/category');
         } else {
             Notification('error', message);
         }

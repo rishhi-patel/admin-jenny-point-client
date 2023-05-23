@@ -66,7 +66,7 @@ const CustomerMain = ({ getCandidateList, customers, loading, blockUser }) => {
     const [compLoaded, setCompLoaded] = useState(false);
 
     useEffect(() => {
-        getCandidateList();
+        getCandidateList({ params: { userType: 'customer' } });
         setCompLoaded(true);
     }, [getCandidateList]);
 
@@ -74,7 +74,7 @@ const CustomerMain = ({ getCandidateList, customers, loading, blockUser }) => {
     useEffect(() => {
         if (compLoaded) {
             const setData = setTimeout(() => {
-                getCandidateList({ params: { keyword } });
+                getCandidateList({ params: { keyword, userType: 'customer' } });
             }, 1000);
             return () => clearTimeout(setData);
         }

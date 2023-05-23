@@ -84,6 +84,18 @@ const MainRoutes = {
                 {
                     path: 'products/:id',
                     element: <ProductDetails />
+                },
+                {
+                    path: 'distributors',
+                    element: <Customer />
+                },
+                {
+                    path: 'distributors/new',
+                    element: <CandidateDetails />
+                },
+                {
+                    path: 'distributors/:id',
+                    element: <CandidateDetails />
                 }
             ]
         },
