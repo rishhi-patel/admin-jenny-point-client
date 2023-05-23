@@ -75,7 +75,7 @@ export const getCustomer = (query) => async (dispatch) => {
         dispatch({
             type: GET_CANDIDATES
         });
-        const { data, status } = await API.get('/user', query);
+        const { data, status } = await API.get('/user?userType=customer', query);
 
         if (status === 200) {
             const { data: customers } = data;
@@ -144,7 +144,7 @@ export const verifyOTP = (userData, navigate) => async (dispatch) => {
         const {
             data: { message, data },
             status
-        } = await API.post(`/user/verify-admin`, userData);
+        } = await API.post(`/user/verify-otp`, userData);
         if (status === 200) {
             const { token } = data;
             Notification('success', message);
@@ -186,7 +186,7 @@ export const blockCandidate =
             const {
                 data: { message },
                 status
-            } = await API.patch(`/customer/${_id}/block`, { isBlocked });
+            } = await API.patch(`/user/${_id}/block`, { isBlocked });
             if (status === 200) {
                 Notification('success', message);
             } else {
@@ -202,7 +202,7 @@ export const updateCandidateDetails = (_id, customerDetails, navigate) => async 
         const {
             data: { message },
             status
-        } = await API.put(`/customer/${_id}`, customerDetails);
+        } = await API.put(`/user/${_id}`, customerDetails);
         if (status === 200) {
             Notification('success', message);
             navigate('/dashboard/customers');
