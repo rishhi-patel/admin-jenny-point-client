@@ -15,7 +15,8 @@ const AddDistributor = ({ selectedCandidate, loading, updateCandidate }) => {
         email: '',
         isBlocked: false,
         phoneNo: '',
-        address: ''
+        address: '',
+        gstNo: ''
     });
 
     return (

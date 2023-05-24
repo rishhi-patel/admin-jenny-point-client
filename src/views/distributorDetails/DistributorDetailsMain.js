@@ -6,7 +6,7 @@ import { deleteUserById, getCandidateById, updateCandidateDetails } from 'store/
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Loading from 'layout/loader/Loading';
-import SettingsCard from 'views/customerDetails/SettingsCard';
+import DistributorForm from './DistributorForm';
 
 const DistributorDetailsMain = ({ getCandidateDetails, selectedCandidate, loading, updateCandidate }) => {
     const { id } = useParams();
@@ -17,7 +17,8 @@ const DistributorDetailsMain = ({ getCandidateDetails, selectedCandidate, loadin
         email: '',
         isBlocked: false,
         phoneNo: '',
-        address: ''
+        address: '',
+        gstNo: ''
     });
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const DistributorDetailsMain = ({ getCandidateDetails, selectedCandidate, loadin
             {loading ? (
                 <Loading />
             ) : (
-                <SettingsCard
+                <DistributorForm
                     userDetails={userDetails}
                     setUserDetails={setUserDetails}
                     readOnly={readOnly}
