@@ -26,6 +26,10 @@ const BrandMain = Loadable(lazy(() => import('views/brand/BrandMain')));
 const ProductsMain = Loadable(lazy(() => import('views/product/ProductsMain')));
 const ProductDetails = Loadable(lazy(() => import('views/productDetails/ProductDetailsMain')));
 const CreateNewProduct = Loadable(lazy(() => import('views/productDetails/CreateNewProduct')));
+const DistributorMain = Loadable(lazy(() => import('views/distributor/DistributorMain')));
+const DistributorDetailsMain = Loadable(lazy(() => import('views/distributorDetails/DistributorDetailsMain')));
+const AddDistributor = Loadable(lazy(() => import('views/distributorDetails/AddDistributor')));
+
 // const customerDetails = Loadable(lazy(() => import()));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -87,15 +91,15 @@ const MainRoutes = {
                 },
                 {
                     path: 'distributors',
-                    element: <Customer />
+                    element: <DistributorMain />
                 },
                 {
                     path: 'distributors/new',
-                    element: <CandidateDetails />
+                    element: <AddDistributor />
                 },
                 {
                     path: 'distributors/:id',
-                    element: <CandidateDetails />
+                    element: <DistributorDetailsMain />
                 }
             ]
         },

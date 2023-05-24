@@ -205,7 +205,7 @@ export const updateCandidateDetails = (_id, customerDetails, navigate) => async 
         } = await API.put(`/user/${_id}`, customerDetails);
         if (status === 200) {
             Notification('success', message);
-            navigate('/dashboard/category');
+            navigate(-1);
         } else {
             Notification('error', message);
         }
