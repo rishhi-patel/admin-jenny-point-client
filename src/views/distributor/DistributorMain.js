@@ -1,16 +1,30 @@
-import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination, Switch, Grid, InputAdornment } from '@mui/material';
+import {
+    Table,
+    TableCell,
+    TableHead,
+    TableRow,
+    TableBody,
+    TablePagination,
+    Switch,
+    Grid,
+    InputAdornment,
+    MenuItem,
+    Menu,
+    IconButton
+} from '@mui/material';
 import { Box } from '@mui/system';
 import MainCard from 'ui-component/cards/MainCard';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { IconEye } from '@tabler/icons';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { blockCandidate, getCustomer } from 'store/actions/userActions';
+import { blockCandidate, deleteUserById, getCustomer } from 'store/actions/userActions';
 import Loading from 'layout/loader/Loading';
 import CustomInput from 'views/customerDetails/CustomInput';
 import SearchIcon from '@mui/icons-material/Search';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: 'pre',
@@ -22,8 +36,16 @@ const StyledTable = styled(Table)(() => ({
     }
 }));
 
-const CandidateRows = ({ userData, i, blockUser }) => {
+const CandidateRows = ({ userData, i, blockUser, navigate, deleteUser }) => {
     const [checked, setChecked] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         setChecked(userData.isBlocked);
@@ -51,15 +73,52 @@ const CandidateRows = ({ userData, i, blockUser }) => {
                 <Switch color="secondary" checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
-                <Link to={userData._id}>
+                {/* <Link to={userData._id}>
                     <IconEye />
-                </Link>
+                </Link> */}
+                <IconButton onClick={handleClick}>
+                    <MoreVertIcon />
+                </IconButton>
+                <Menu
+                    id="demo-positioned-menu"
+                    aria-labelledby="demo-positioned-button"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left'
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left'
+                    }}
+                >
+                    <MenuItem
+                        onClick={() => {
+                            setAnchorEl(null);
+                            navigate(userData._id);
+                        }}
+                    >
+                        <ModeEditIcon color="success" sx={{ mr: 1 }} />
+                        Edit
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            setAnchorEl(null);
+                            deleteUser(userData._id);
+                        }}
+                    >
+                        <DeleteIcon color="error" sx={{ mr: 1 }} />
+                        Delete
+                    </MenuItem>
+                </Menu>
             </TableCell>
         </TableRow>
     );
 };
 
-const DistributorMain = ({ getCandidateList, customers, loading, blockUser }) => {
+const DistributorMain = ({ getCandidateList, customers, loading, blockUser, deleteUser }) => {
     const navigate = useNavigate();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -126,12 +185,19 @@ const DistributorMain = ({ getCandidateList, customers, loading, blockUser }) =>
                                     <TableCell align="center">Mobile</TableCell>
                                     <TableCell align="center">Address</TableCell>
                                     <TableCell align="center">Blocked</TableCell>
-                                    <TableCell align="center">View</TableCell>
+                                    <TableCell align="center">Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody style={{ padding: '10px' }}>
                                 {customers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((userData, i) => (
-                                    <CandidateRows key={userData._id} userData={userData} i={i} blockUser={blockUser} />
+                                    <CandidateRows
+                                        key={userData._id}
+                                        userData={userData}
+                                        i={i}
+                                        blockUser={blockUser}
+                                        navigate={navigate}
+                                        deleteUser={deleteUser}
+                                    />
                                 ))}
                             </TableBody>
                         </StyledTable>
@@ -162,7 +228,8 @@ const mapStateToProps = ({ user }) => {
 };
 const mapDispatchToProps = (dispatch) => ({
     getCandidateList: (query) => dispatch(getCustomer(query)),
-    blockUser: (userData) => dispatch(blockCandidate(userData))
+    blockUser: (userData) => dispatch(blockCandidate(userData)),
+    deleteUser: (_id) => dispatch(deleteUserById(_id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DistributorMain);

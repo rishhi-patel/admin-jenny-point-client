@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { useParams } from 'react-router';
-import { getCandidateById, updateCandidateDetails } from 'store/actions/userActions';
+import { deleteUserById, getCandidateById, updateCandidateDetails } from 'store/actions/userActions';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Loading from 'layout/loader/Loading';

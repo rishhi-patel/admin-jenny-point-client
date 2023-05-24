@@ -1,5 +1,11 @@
 import API from 'API';
 import {
+    ADD_USER,
+    ADD_USER_ERROR,
+    ADD_USER_SUCCESS,
+    DELETE_USER,
+    DELETE_USER_ERROR,
+    DELETE_USER_SUCCESS,
     ERROR_USER_DETAILS,
     ERROR_USER_LOGIN,
     GET_CANDIDATES,
@@ -92,6 +98,63 @@ export const getCustomer = (query) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_CANDIDATES_ERROR
+        });
+    }
+};
+export const adduser = (userData, navigate) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ADD_USER
+        });
+        const {
+            status,
+            data: { message }
+        } = await API.post(`/user`, userData);
+
+        if (status === 201) {
+            Notification('success', message);
+            dispatch({
+                type: ADD_USER_SUCCESS
+            });
+            navigate(-1);
+        } else {
+            Notification('error', message);
+            dispatch({
+                type: ADD_USER_ERROR
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: ADD_USER_ERROR
+        });
+    }
+};
+
+export const deleteUserById = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: DELETE_USER
+        });
+        const {
+            data: { data, message },
+            status
+        } = await API.delete(`/user/${_id}`);
+
+        if (status === 200) {
+            Notification('success', message);
+            dispatch({
+                type: DELETE_USER_SUCCESS,
+                payload: data
+            });
+        } else {
+            Notification('error', message);
+            dispatch({
+                type: DELETE_USER_ERROR
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: GET_CANDIDATES_BY_ID_ERROR
         });
     }
 };

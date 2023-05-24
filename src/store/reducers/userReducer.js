@@ -10,7 +10,13 @@ import {
     GET_CANDIDATES,
     GET_CANDIDATES_BY_ID,
     GET_CANDIDATES_BY_ID_ERROR,
-    GET_CANDIDATES_BY_ID_SUCCESS
+    GET_CANDIDATES_BY_ID_SUCCESS,
+    ADD_USER_SUCCESS,
+    ADD_USER_ERROR,
+    ADD_USER,
+    DELETE_USER_SUCCESS,
+    DELETE_USER_ERROR,
+    DELETE_USER
 } from 'store/constant';
 
 export const initialState = {
@@ -49,6 +55,19 @@ const userReducer = (state = initialState, action) => {
             return { ...state, loading: false, selectedCandidate: action.payload };
         case GET_CANDIDATES_BY_ID_ERROR:
             return { ...state, loading: false };
+        case ADD_USER:
+            return { ...state, loading: true };
+        case ADD_USER_SUCCESS:
+            return { ...state, loading: false };
+        case ADD_USER_ERROR:
+            return { ...state, loading: false };
+        case DELETE_USER:
+            return { ...state, loading: true };
+        case DELETE_USER_SUCCESS:
+            return { ...state, loading: false, customers: action.payload };
+        case DELETE_USER_ERROR:
+            return { ...state, loading: false };
+
         default:
             return { ...state };
     }

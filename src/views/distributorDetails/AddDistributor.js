@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import { updateCandidateDetails } from 'store/actions/userActions';
+import { adduser, updateCandidateDetails } from 'store/actions/userActions';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Loading from 'layout/loader/Loading';
 import SettingsCard from 'views/customerDetails/SettingsCard';
+import { useNavigate } from 'react-router';
 
 const AddDistributor = ({ selectedCandidate, loading, updateCandidate }) => {
-    const [readOnly, setReadOnly] = useState(true);
-
+    const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({
         name: '',
         email: '',
@@ -18,38 +18,22 @@ const AddDistributor = ({ selectedCandidate, loading, updateCandidate }) => {
         address: ''
     });
 
-    useEffect(() => {
-        setUserDetails(selectedCandidate);
-    }, [selectedCandidate]);
-
     return (
         <MainCard
             title="Distributor Details"
             contentSX={{ padding: 0 }}
-            btnText={readOnly ? 'Edit' : 'Save'}
+            btnText={'Save'}
             btnEvent={() => {
-                setReadOnly(false);
-                if (!readOnly) {
-                    const btn = document.getElementById('customerSubmit');
-                    if (btn) btn.click();
-                }
+                const btn = document.getElementById('customerSubmit');
+                if (btn) btn.click();
             }}
-            cancelBtn={!readOnly}
-            cancelBtnEvent={() => {
-                setReadOnly(!readOnly);
-                setUserDetails(selectedCandidate);
-            }}
+            cancelBtn
+            cancelBtnEvent={() => navigate(-1)}
         >
             {loading ? (
                 <Loading />
             ) : (
-                <SettingsCard
-                    userDetails={userDetails}
-                    setUserDetails={setUserDetails}
-                    readOnly={readOnly}
-                    setReadOnly={setReadOnly}
-                    updateCandidate={updateCandidate}
-                />
+                <SettingsCard userDetails={userDetails} setUserDetails={setUserDetails} updateCandidate={updateCandidate} add />
             )}
         </MainCard>
     );
@@ -60,7 +44,7 @@ const mapStateToProps = ({ user }) => {
     return { selectedCandidate, loading };
 };
 const mapDispatchToProps = (dispatch) => ({
-    updateCandidate: (_id, DistributorDetails, navigate) => dispatch(updateCandidateDetails(_id, DistributorDetails, navigate))
+    updateCandidate: (DistributorDetails, navigate) => dispatch(adduser({ ...DistributorDetails, userType: 'distributor' }, navigate))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddDistributor);

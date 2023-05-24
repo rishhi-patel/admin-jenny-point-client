@@ -12,7 +12,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
 //APP
-export default function SettingsCard({ userDetails, readOnly, setReadOnly, updateCandidate }) {
+export default function SettingsCard({ userDetails, add, readOnly, setReadOnly, updateCandidate }) {
     //TAB STATES
     const navigate = useNavigate();
     const [value, setValue] = React.useState('one');
@@ -51,18 +51,9 @@ export default function SettingsCard({ userDetails, readOnly, setReadOnly, updat
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        const { name, email, isBlocked, mobileNo, address } = values;
-                        updateCandidate(
-                            userDetails._id,
-                            {
-                                name,
-                                email,
-                                isBlocked,
-                                mobileNo,
-                                address
-                            },
-                            navigate
-                        );
+                        if (add) {
+                            updateCandidate(values, navigate);
+                        } else updateCandidate(userDetails._id, values, navigate);
                         setReadOnly(true);
                     } catch (err) {
                         setStatus({ success: false });
@@ -106,7 +97,7 @@ export default function SettingsCard({ userDetails, readOnly, setReadOnly, updat
                                             value={values.mobileNo}
                                             // onChange={changeField}
                                             title="Phone No."
-                                            disabled
+                                            disabled={readOnly}
                                             error={touched.mobileNo && errors.mobileNo}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
