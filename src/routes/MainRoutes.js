@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import { element } from 'prop-types';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -29,6 +30,7 @@ const CreateNewProduct = Loadable(lazy(() => import('views/productDetails/Create
 const DistributorMain = Loadable(lazy(() => import('views/distributor/DistributorMain')));
 const DistributorDetailsMain = Loadable(lazy(() => import('views/distributorDetails/DistributorDetailsMain')));
 const AddDistributor = Loadable(lazy(() => import('views/distributorDetails/AddDistributor')));
+const OrdersMain = Loadable(lazy(() => import('views/orders/OrdersMain')));
 
 // const customerDetails = Loadable(lazy(() => import()));
 
@@ -100,7 +102,8 @@ const MainRoutes = {
                 {
                     path: 'distributors/:id',
                     element: <DistributorDetailsMain />
-                }
+                },
+                { path: 'orders', element: <OrdersMain /> }
             ]
         },
         {

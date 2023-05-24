@@ -47,7 +47,8 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                     name: Yup.string().max(255).required('Name Name is required'),
                     email: Yup.string().max(255).required('email Name is required'),
                     mobileNo: Yup.string().max(255).required('mobileNo Name is required'),
-                    address: Yup.string().max(255).required('address Name is required')
+                    address: Yup.string().max(255).required('address Name is required'),
+                    gstNo: Yup.string().max(255).required('GST No. is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
