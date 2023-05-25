@@ -124,8 +124,8 @@ const OrdersMain = ({ getOrders, orders, loading, blockUser }) => {
     );
 };
 
-const mapStateToProps = ({ orderState }) => {
-    const { orders, loading } = orderState;
+const mapStateToProps = ({ order }) => {
+    const { orders, loading } = order;
     return { orders, loading };
 };
 const mapDispatchToProps = (dispatch) => ({

@@ -18,7 +18,7 @@ const reducer = combineReducers({
     jobs: jobReducer,
     brands: brandReducer,
     products: productReducer,
-    orderState: orderReducer
+    order: orderReducer
 });
 
 export default reducer;

@@ -214,7 +214,7 @@ const JobDetailsForm = ({ details, readOnly, saveJob, setReadOnly, fetchCategoti
                                         content={shifts.map((option) => (
                                             <MenuItem value={option.value}>{option.label}</MenuItem>
                                         ))}
-                                    />{' '}
+                                    />
                                     {touched.shifts && errors.shifts && (
                                         <FormHelperText error id="standard-weight-helper-text-email-login">
                                             {errors.shifts}
