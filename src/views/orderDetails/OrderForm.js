@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import API from 'API';
 
 //APP
-export default function OrderForm({ userDetails, add, readOnly, setReadOnly, updateCandidate }) {
+export default function OrderForm({ userDetails, add, readOnly, setReadOnly, updateCandidate, assignOrder }) {
     //TAB STATES
     const navigate = useNavigate();
     const [distributors, setDistributors] = React.useState([]);
@@ -135,24 +135,32 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                         )}
                                     </Grid>{' '}
                                     <Grid item xs={6}>
-                                        <CustomInput
-                                            select
-                                            id="distributors"
-                                            name="distributors"
-                                            // onBlur={handleBlur}
-                                            // onChange={handleChange}
-                                            disabled={readOnly}
-                                            title="Assigned Distributor"
-                                            value={values.distributors}
-                                            error={touched.distributors && errors.distributors}
-                                            content={distributors.map((option) => (
-                                                <MenuItem value={option.value}>{option.label}</MenuItem>
-                                            ))}
-                                        />
-                                        {touched.distributors && errors.distributors && (
-                                            <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.distributors}
-                                            </FormHelperText>
+                                        {/* {console.log({
+                                            distributors,
+                                            dist: values.distributor,
+                                            flag: distributors[1]?.value.toString() === values.distributor?.toString()
+                                        })} */}
+                                        {distributors.length && (
+                                            <>
+                                                <CustomInput
+                                                    select
+                                                    id="distributors"
+                                                    name="distributors"
+                                                    onChange={(e) => assignOrder(e.target.value, values._id)}
+                                                    disabled={readOnly}
+                                                    title="Assigned Distributor"
+                                                    value={values.distributor}
+                                                    error={touched.distributors && errors.distributors}
+                                                    content={distributors.map((option) => (
+                                                        <MenuItem value={option.value}>{option.label}</MenuItem>
+                                                    ))}
+                                                />
+                                                {touched.distributors && errors.distributors && (
+                                                    <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                        {errors.distributors}
+                                                    </FormHelperText>
+                                                )}
+                                            </>
                                         )}
                                     </Grid>
                                     <Grid component="form" item xs={6}>

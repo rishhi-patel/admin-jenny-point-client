@@ -44,7 +44,7 @@ const CandidateRows = ({ userData, i, blockUser }) => {
                 {userData.currentOrderStatus?.status}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
-                {userData.distributor}
+                {userData.distributor?.name}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
                 {moment(userData.createdAt).format('Do MMMM YYYY ,  h:mm a')}

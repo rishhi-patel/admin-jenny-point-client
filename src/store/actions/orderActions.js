@@ -64,3 +64,24 @@ export const getOrderByID = (id) => async (dispatch) => {
         });
     }
 };
+
+export const assignDistributor = (value, id) => async (dispatch) => {
+    try {
+        const {
+            data: { data, message },
+            status
+        } = await API.patch(`/order/${id}`, { key: 'distributor', value });
+
+        if (status === 200) {
+            Notification('success', message);
+            dispatch({
+                type: GET_ORDER_BY_ID_SUCCESS,
+                payload: data
+            });
+        } else {
+            Notification('error', message);
+        }
+    } catch ({ message }) {
+        Notification('error', message);
+    }
+};

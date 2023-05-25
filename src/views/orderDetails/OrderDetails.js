@@ -10,7 +10,7 @@ import Loading from 'layout/loader/Loading';
 import OrderForm from './OrderForm';
 import { Box } from '@mui/system';
 import styled from '@emotion/styled';
-import { getOrderByID } from 'store/actions/orderActions';
+import { assignDistributor, getOrderByID } from 'store/actions/orderActions';
 import moment from 'moment';
 
 const StyledTable = styled(Table)(() => ({
@@ -52,7 +52,7 @@ const CandidateRows = ({ userData, i }) => {
     );
 };
 
-const OrderDetails = ({ getCandidateDetails, selectedOrder, loading, updateCandidate }) => {
+const OrderDetails = ({ getCandidateDetails, selectedOrder, loading, updateCandidate, assignOrder }) => {
     const { id } = useParams();
     const { orderItems } = selectedOrder;
     const [readOnly, setReadOnly] = useState(false);
@@ -97,6 +97,7 @@ const OrderDetails = ({ getCandidateDetails, selectedOrder, loading, updateCandi
                         readOnly={readOnly}
                         setReadOnly={setReadOnly}
                         updateCandidate={updateCandidate}
+                        assignOrder={assignOrder}
                     />
                     <Box className="plan" style={{ overflowY: 'auto', minHeight: 'calc(100vh - 365px)' }}>
                         <StyledTable>
@@ -151,7 +152,8 @@ const mapStateToProps = ({ order }) => {
 };
 const mapDispatchToProps = (dispatch) => ({
     getCandidateDetails: (id) => dispatch(getOrderByID(id)),
-    updateCandidate: (_id, DistributorDetails, navigate) => dispatch(updateCandidateDetails(_id, DistributorDetails, navigate))
+    updateCandidate: (_id, DistributorDetails, navigate) => dispatch(updateCandidateDetails(_id, DistributorDetails, navigate)),
+    assignOrder: (val, product_id) => dispatch(assignDistributor(val, product_id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderDetails);
