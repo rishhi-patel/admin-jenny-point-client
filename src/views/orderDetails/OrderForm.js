@@ -116,30 +116,25 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                         )}
                                     </Grid>
                                     <Grid item xs={6}>
+                                        {' '}
                                         <CustomInput
-                                            type="orderStatus"
-                                            id="orderStatus"
-                                            name="orderStatus"
-                                            value={values.currentOrderStatus?.status}
+                                            id="phone"
+                                            name="mobileNo"
+                                            value={values.user?.mobileNo}
                                             // onChange={changeField}
-                                            title="Order Status"
+                                            title="Phone No."
                                             disabled={readOnly}
-                                            error={touched.orderStatus && errors.orderStatus}
+                                            error={touched.mobileNo && errors.mobileNo}
                                             // onBlur={handleBlur}
                                             // onChange={handleChange}
                                         />
-                                        {touched.orderStatus && errors.orderStatus && (
-                                            <FormHelperText error id="standard-weight-helper-text-orderStatus-login">
-                                                {errors.orderStatus}
+                                        {touched.mobileNo && errors.mobileNo && (
+                                            <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                {errors.mobileNo}
                                             </FormHelperText>
                                         )}
-                                    </Grid>{' '}
+                                    </Grid>
                                     <Grid item xs={6}>
-                                        {/* {console.log({
-                                            distributors,
-                                            dist: values.distributor,
-                                            flag: distributors[1]?.value.toString() === values.distributor?.toString()
-                                        })} */}
                                         {distributors.length && (
                                             <>
                                                 <CustomInput
@@ -163,21 +158,38 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             </>
                                         )}
                                     </Grid>
-                                    <Grid component="form" item xs={6}>
+                                    <Grid component="form" item xs={6} sx={{ '&>div': { marginBottom: '24px' } }}>
                                         <CustomInput
                                             id="phone"
-                                            name="mobileNo"
-                                            value={values.user?.mobileNo}
+                                            name="order_id"
+                                            value={'#' + values._id}
                                             // onChange={changeField}
-                                            title="Phone No."
+                                            title="Order ID"
                                             disabled={readOnly}
-                                            error={touched.mobileNo && errors.mobileNo}
+                                            error={touched.order_id && errors.order_id}
                                             // onBlur={handleBlur}
                                             // onChange={handleChange}
                                         />
-                                        {touched.mobileNo && errors.mobileNo && (
+                                        {touched.order_id && errors.order_id && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.mobileNo}
+                                                {errors.order_id}
+                                            </FormHelperText>
+                                        )}
+                                        <CustomInput
+                                            type="orderStatus"
+                                            id="orderStatus"
+                                            name="orderStatus"
+                                            value={values.currentOrderStatus?.status}
+                                            // onChange={changeField}
+                                            title="Order Status"
+                                            disabled={readOnly}
+                                            error={touched.orderStatus && errors.orderStatus}
+                                            // onBlur={handleBlur}
+                                            // onChange={handleChange}
+                                        />
+                                        {touched.orderStatus && errors.orderStatus && (
+                                            <FormHelperText error id="standard-weight-helper-text-orderStatus-login">
+                                                {errors.orderStatus}
                                             </FormHelperText>
                                         )}
                                         <CustomInput
@@ -196,22 +208,6 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 {errors.totalPrice}
                                             </FormHelperText>
                                         )}
-                                        <CustomInput
-                                            id="phone"
-                                            name="order_id"
-                                            value={'#' + values._id}
-                                            // onChange={changeField}
-                                            title="Order ID"
-                                            disabled={readOnly}
-                                            error={touched.order_id && errors.order_id}
-                                            // onBlur={handleBlur}
-                                            // onChange={handleChange}
-                                        />
-                                        {touched.order_id && errors.order_id && (
-                                            <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.order_id}
-                                            </FormHelperText>
-                                        )}
                                     </Grid>
                                     <Grid item xs={6}>
                                         <CustomInput
@@ -223,7 +219,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             value={values.shippingAddress}
                                             title="Address"
                                             multiline
-                                            minRows={8}
+                                            minRows={11}
                                         />{' '}
                                         {touched.address && errors.address && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">
