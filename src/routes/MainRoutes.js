@@ -32,6 +32,8 @@ const DistributorDetailsMain = Loadable(lazy(() => import('views/distributorDeta
 const AddDistributor = Loadable(lazy(() => import('views/distributorDetails/AddDistributor')));
 const OrdersMain = Loadable(lazy(() => import('views/orders/OrdersMain')));
 const OrderDetails = Loadable(lazy(() => import('views/orderDetails/OrderDetails')));
+const OffersMain = Loadable(lazy(() => import('views/offers/OffersMain')));
+const AddOffer = Loadable(lazy(() => import('views/offers/AddOffer')));
 
 // const customerDetails = Loadable(lazy(() => import()));
 
@@ -105,6 +107,9 @@ const MainRoutes = {
                     element: <DistributorDetailsMain />
                 },
                 { path: 'orders', element: <OrdersMain /> },
+                { path: 'orders/:id', element: <OrderDetails /> },
+                { path: 'offers', element: <OffersMain /> },
+                { path: 'offers/new', element: <AddOffer /> },
                 { path: 'orders/:id', element: <OrderDetails /> }
             ]
         },

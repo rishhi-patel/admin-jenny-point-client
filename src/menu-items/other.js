@@ -4,6 +4,7 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import GroupsIcon from '@mui/icons-material/Groups';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
@@ -65,6 +66,14 @@ const other = {
             type: 'item',
             url: '/dashboard/orders',
             icon: ReceiptIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'offers',
+            title: 'Offers',
+            type: 'item',
+            url: '/dashboard/offers',
+            icon: LocalOfferIcon,
             breadcrumbs: false
         }
     ]
