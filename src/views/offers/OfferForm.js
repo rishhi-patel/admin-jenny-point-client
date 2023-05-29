@@ -71,7 +71,12 @@ export default function OfferForm({ offerDetails, add, readOnly, setReadOnly, sa
                                     {console.log({ errors })}
                                     <Grid xs={4} />
                                     <Grid component="form" item xs={4} sx={{ height: 200 }}>
-                                        <UploadSingleImage imgData={image} error={errors.image} updateImage={setOfferDetails} />
+                                        <UploadSingleImage
+                                            imgData={image}
+                                            error={errors.image}
+                                            updateImage={setOfferDetails}
+                                            disabled={readOnly}
+                                        />
                                     </Grid>
                                     <Grid xs={4} />
                                     <Grid component="form" item xs={6}>
@@ -104,6 +109,7 @@ export default function OfferForm({ offerDetails, add, readOnly, setReadOnly, sa
                                                     });
                                                 }}
                                                 value={dayjs(values.validTill)}
+                                                disabled={readOnly}
                                             />
                                         </LocalizationProvider>
                                     </Grid>

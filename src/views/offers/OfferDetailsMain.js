@@ -9,6 +9,7 @@ import Loading from 'layout/loader/Loading';
 const OfferDetailsMain = ({ getOfferDetails, selectedOffer, loading, updateOfferDetails }) => {
     const { id } = useParams();
 
+    const [readOnly, setReadOnly] = useState(true);
     const [offerDetails, setOfferDetails] = useState({
         title: '',
         image: {
@@ -33,16 +34,26 @@ const OfferDetailsMain = ({ getOfferDetails, selectedOffer, loading, updateOffer
         <MainCard
             title="Offert Details"
             contentSX={{ padding: 0 }}
-            btnText={'Save'}
+            btnText={readOnly ? 'Edit' : 'Save'}
             btnEvent={() => {
-                const btn = document.getElementById('customerSubmit');
-                if (btn) btn.click();
+                setReadOnly(false);
+                if (!readOnly) {
+                    const btn = document.getElementById('customerSubmit');
+                    if (btn) btn.click();
+                }
             }}
         >
             {loading ? (
                 <Loading />
             ) : (
-                <OfferForm add offerDetails={offerDetails} setOfferDetails={setOfferDetails} saveOffer={updateOfferDetails} />
+                <OfferForm
+                    add
+                    offerDetails={offerDetails}
+                    setOfferDetails={setOfferDetails}
+                    saveOffer={updateOfferDetails}
+                    readOnly={readOnly}
+                    setReadOnly={setReadOnly}
+                />
             )}
         </MainCard>
     );
