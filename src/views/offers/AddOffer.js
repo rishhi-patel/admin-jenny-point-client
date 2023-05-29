@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import OfferForm from './OfferForm';
 
 const AddOffer = () => {
+    const [readOnly, setReadOnly] = useState(true);
+    const [offerDetails, setOfferDetails] = useState({
+        title: '',
+        image: {
+            key: '',
+            url: ''
+        },
+        validTill: '',
+        offerType: '',
+        discountValue: ''
+    });
     return (
         <MainCard
             title="Create Offert"
@@ -13,7 +24,7 @@ const AddOffer = () => {
                 if (btn) btn.click();
             }}
         >
-            <OfferForm />
+            <OfferForm add userDetails={offerDetails} readOnly={readOnly} setReadOnly={setReadOnly} updateCandidate />
         </MainCard>
     );
 };
