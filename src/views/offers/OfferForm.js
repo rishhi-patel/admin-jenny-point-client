@@ -14,6 +14,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment from 'moment';
 import { UploadSingleImage } from 'utils/uploadSingleImage';
+import dayjs from 'dayjs';
 
 const offerTypes = [
     {
@@ -26,26 +27,28 @@ const offerTypes = [
     }
 ];
 
-export default function OfferForm({ userDetails, add, readOnly, setReadOnly, updateCandidate }) {
+export default function OfferForm({ offerDetails, add, readOnly, setReadOnly, saveOffer, setOfferDetails }) {
+    const { image } = offerDetails;
     const navigate = useNavigate();
     return (
         <Card variant="outlined" sx={{ height: '100%', width: '100%', padding: 0, border: 'none' }}>
             <Formik
                 initialValues={{
-                    ...userDetails
+                    ...offerDetails
                 }}
                 enableReinitialize
                 validationSchema={Yup.object().shape({
-                    name: Yup.string().max(255).required('Name Name is required'),
-                    email: Yup.string().max(255).required('email Name is required'),
-                    mobileNo: Yup.string().max(255).required('mobileNo Name is required'),
-                    address: Yup.string().max(255).required('address Name is required')
+                    title: Yup.string().max(255).required('offer title is required'),
+                    offerType: Yup.string().max(255).required('offer type title is required'),
+                    discountValue: Yup.string().max(255).required('offer value is required'),
+                    image: Yup.object().shape({
+                        key: Yup.string().required('image is required'),
+                        url: Yup.string().required('image is required')
+                    })
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        if (add) {
-                            updateCandidate(values, navigate);
-                        } else updateCandidate(userDetails._id, values, navigate);
+                        saveOffer(values, navigate);
                         setReadOnly(true);
                     } catch (err) {
                         setStatus({ success: false });
@@ -63,16 +66,15 @@ export default function OfferForm({ userDetails, add, readOnly, setReadOnly, upd
                                 textAlign: { xs: 'center', md: 'start' }
                             }}
                         >
-                            {/* FIELDS */}
                             <FormControl fullWidth>
                                 <Grid container direction={{ xs: 'column', md: 'row' }} columnSpacing={5} rowSpacing={3}>
+                                    {console.log({ errors })}
                                     <Grid xs={4} />
                                     <Grid component="form" item xs={4} sx={{ height: 200 }}>
-                                        <UploadSingleImage imgData={{ key: '', url: '' }} updateImage={() => console.log('')} />
-                                    </Grid>{' '}
+                                        <UploadSingleImage imgData={image} error={errors.image} updateImage={setOfferDetails} />
+                                    </Grid>
                                     <Grid xs={4} />
                                     <Grid component="form" item xs={6}>
-                                        {' '}
                                         <CustomInput
                                             id="title"
                                             name="title"
@@ -94,14 +96,20 @@ export default function OfferForm({ userDetails, add, readOnly, setReadOnly, upd
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 sx={{ width: '100% !important', '&>div>input': { padding: '10px 14px' } }}
-                                                onChange={(val) => console.log({ val: moment(val).format('Do MMMM YYYY ,  h:mm a') })}
+                                                id="validTill"
+                                                name="validTill"
+                                                onChange={(val) => {
+                                                    setOfferDetails((oldVal) => {
+                                                        return { ...oldVal, ...values, validTill: val };
+                                                    });
+                                                }}
+                                                value={dayjs(values.validTill)}
                                             />
                                         </LocalizationProvider>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <CustomInput
                                             select
-                                            type="offerType"
                                             id="offerType"
                                             name="offerType"
                                             onBlur={handleBlur}
@@ -114,6 +122,7 @@ export default function OfferForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 <MenuItem value={option.value}>{option.label}</MenuItem>
                                             ))}
                                         />
+                                        {/* )} */}
                                         {touched.offerType && errors.offerType && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                                 {errors.offerType}
@@ -121,22 +130,19 @@ export default function OfferForm({ userDetails, add, readOnly, setReadOnly, upd
                                         )}
                                     </Grid>
                                     <Grid component="form" item xs={6}>
-                                        {' '}
                                         <CustomInput
-                                            type="value"
                                             id="value"
-                                            name="value"
-                                            value={values.value}
-                                            // onChange={changeField}
+                                            name="discountValue"
+                                            value={values.discountValue}
                                             title="Offer Value"
                                             disabled={readOnly}
-                                            error={touched.value && errors.value}
+                                            error={touched.discountValue && errors.discountValue}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                         />
-                                        {touched.value && errors.value && (
-                                            <FormHelperText error id="standard-weight-helper-text-value-login">
-                                                {errors.value}
+                                        {touched.discountValue && errors.discountValue && (
+                                            <FormHelperText error id="standard-weight-helper-text-discountValue-login">
+                                                {errors.discountValue}
                                             </FormHelperText>
                                         )}
                                     </Grid>

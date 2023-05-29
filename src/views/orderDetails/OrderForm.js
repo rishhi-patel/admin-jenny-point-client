@@ -67,7 +67,6 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
-                        {console.log({ values: values })}
                         <CardContent
                             sx={{
                                 p: 3,

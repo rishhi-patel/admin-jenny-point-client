@@ -8,6 +8,7 @@ import jobReducer from './jobReducer';
 import brandReducer from './brandReducer';
 import productReducer from './productReducer';
 import orderReducer from './orderReducer';
+import offerReducer from './offerReducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     jobs: jobReducer,
     brands: brandReducer,
     products: productReducer,
-    order: orderReducer
+    order: orderReducer,
+    offer: offerReducer
 });
 
 export default reducer;

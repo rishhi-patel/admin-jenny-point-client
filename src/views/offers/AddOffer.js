@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import OfferForm from './OfferForm';
+import { connect } from 'react-redux';
+import { createOffer } from 'store/actions/offerActions';
 
-const AddOffer = () => {
-    const [readOnly, setReadOnly] = useState(true);
+const AddOffer = ({ createNewOffer }) => {
     const [offerDetails, setOfferDetails] = useState({
         title: '',
         image: {
             key: '',
             url: ''
         },
-        validTill: '',
+        validTill: Date.now(),
         offerType: '',
         discountValue: ''
     });
@@ -24,9 +25,18 @@ const AddOffer = () => {
                 if (btn) btn.click();
             }}
         >
-            <OfferForm add userDetails={offerDetails} readOnly={readOnly} setReadOnly={setReadOnly} updateCandidate />
+            <OfferForm add offerDetails={offerDetails} setOfferDetails={setOfferDetails} saveOffer={createNewOffer} />
         </MainCard>
     );
 };
 
-export default AddOffer;
+const mapStateToProps = ({ offer }) => {
+    const { loading, offers } = offer;
+
+    return { loading, offers };
+};
+const mapDispatchToProps = (dispatch) => ({
+    createNewOffer: (data, navigate) => dispatch(createOffer(data, navigate))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddOffer);

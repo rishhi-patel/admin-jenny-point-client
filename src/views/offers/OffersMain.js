@@ -3,26 +3,29 @@ import MainCard from 'ui-component/cards/MainCard';
 import { Box } from '@mui/system';
 import { Button, Grid } from '@mui/material';
 import { connect } from 'react-redux';
-import { changeBrandSelection, changeModalState, createBrand, deleteBrand, getBrands, updateBrand } from 'store/actions/brandActions';
+import { changeOfferSelection, changeModalState, createOffer, deleteOffer, getOffers, updateOffer } from 'store/actions/offerActions';
 import { useEffect } from 'react';
 import Loading from 'layout/loader/Loading';
 import OfferCard from './OfferCard';
-// import CreateBrandModal from './CreateBrandModal';
+import { useNavigate } from 'react-router';
+// import CreateOfferModal from './CreateOfferModal';
 
-const OffersMain = ({ loading, brandList, fetchCategotires, updateModalState, updateSelectedBrand, deleteBrandById }) => {
+const OffersMain = ({ loading, offers, fetchOffers, updateSelectedOffer, deleteOfferById }) => {
+    const navigate = useNavigate();
+
     useEffect(() => {
-        fetchCategotires();
-    }, [fetchCategotires]);
+        fetchOffers();
+    }, [fetchOffers]);
 
     return (
-        <MainCard title="Offers" btnText="+ Add Offer" btnEvent={() => updateModalState(true)} sx={{ minHeight: '82vh' }}>
+        <MainCard title="Offers" btnText="+ Add Offer" btnEvent={() => navigate('new')} sx={{ minHeight: '82vh' }}>
             {loading ? (
                 <Loading />
             ) : (
                 <Grid container spacing={6}>
-                    {brandList.map((brand) => (
-                        <Grid item xl={3} lg={3} md={6} sm={6} xs={12} key={brand._id}>
-                            <OfferCard brand={brand} updateSelectedBrand={updateSelectedBrand} deleteBrandById={deleteBrandById} />
+                    {offers.map((offer) => (
+                        <Grid item xl={3} lg={3} md={6} sm={6} xs={12} key={offer._id}>
+                            <OfferCard offer={offer} updateSelectedOffer={updateSelectedOffer} deleteOfferById={deleteOfferById} />
                         </Grid>
                     ))}
                 </Grid>
@@ -31,18 +34,18 @@ const OffersMain = ({ loading, brandList, fetchCategotires, updateModalState, up
     );
 };
 
-const mapStateToProps = ({ brands }) => {
-    const { loading, brands: brandList, brandModalState, selectedBrand } = brands;
-
-    return { loading, brandList, brandModalState, selectedBrand };
+const mapStateToProps = ({ offer }) => {
+    const { loading, offers } = offer;
+    console.log({ offers });
+    return { loading, offers };
 };
 const mapDispatchToProps = (dispatch) => ({
-    fetchCategotires: () => dispatch(getBrands()),
-    createNewBrand: (data) => dispatch(createBrand(data)),
-    updateModalState: (status) => dispatch(changeModalState(status)),
-    updateSelectedBrand: (brand) => dispatch(changeBrandSelection(brand)),
-    updateBrandDetails: (data, _id) => dispatch(updateBrand(data, _id)),
-    deleteBrandById: (_id) => dispatch(deleteBrand(_id))
+    fetchOffers: () => dispatch(getOffers()),
+    deleteOfferById: (_id) => dispatch(deleteOffer(_id))
+    // createNewOffer: (data) => dispatch(createOffer(data)),
+    // updateModalState: (status) => dispatch(changeModalState(status)),
+    // updateSelectedOffer: (offer) => dispatch(changeOfferSelection(offer)),
+    // updateOfferDetails: (data, _id) => dispatch(updateOffer(data, _id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OffersMain);

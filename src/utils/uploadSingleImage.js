@@ -41,7 +41,7 @@ export const UploadSingleImage = ({ imgData, updateImage, disabled = false, erro
         setLoading(true);
         await API.post(`/product/image/${key}`);
         updateImage((oldState) => {
-            return { ...oldState, ...values, images: { key: '', url: '' } };
+            return { ...oldState, ...values, image: { key: '', url: '' } };
         });
         setLoading(false);
     };
@@ -80,7 +80,7 @@ export const UploadSingleImage = ({ imgData, updateImage, disabled = false, erro
                     </IconButton>
                     {error && (
                         <FormHelperText error id="standard-weight-helper-text-email-login">
-                            First Image is Required
+                            {error.key}
                         </FormHelperText>
                     )}
                 </>

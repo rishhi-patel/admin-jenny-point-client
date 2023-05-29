@@ -10,31 +10,19 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Box } from '@mui/system';
+import { useNavigate } from 'react-router';
 
-export default function OfferCard({ brand, updateSelectedBrand, deleteBrandById }) {
-    const { image, name } = brand;
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
+export default function OfferCard({ offer, updateSelectedOffer, deleteOfferById }) {
+    const { image, title } = offer;
+    const navigate = useNavigate();
     return (
         <Card sx={{ maxWidth: 345, boxShadow: 3, position: 'relative' }}>
-            {/* <CardMedia
-                sx={{ height: 150, backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }}
-                image={image.url}
-                title="green iguana"
-            /> */}
             <Box sx={{ height: 150 }}>
                 <img src={image.url} alt="" style={{ height: '100%', width: '100%' }} />
             </Box>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {name}
+                    {title}
                 </Typography>
             </CardContent>
             <CardActions sx={{ justifyContent: 'space-between', paddingTop: 0 }}>
@@ -45,7 +33,7 @@ export default function OfferCard({ brand, updateSelectedBrand, deleteBrandById 
                     color="secondary"
                     size="small"
                     sx={{ width: '45%' }}
-                    onClick={() => updateSelectedBrand(brand)}
+                    onClick={() => navigate(offer._id)}
                 >
                     Edit
                 </Button>
@@ -56,7 +44,7 @@ export default function OfferCard({ brand, updateSelectedBrand, deleteBrandById 
                     color="error"
                     size="small"
                     sx={{ width: '45%' }}
-                    onClick={() => deleteBrandById(brand._id)}
+                    onClick={() => deleteOfferById(offer._id)}
                 >
                     Delete
                 </Button>
