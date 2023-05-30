@@ -7,7 +7,7 @@ import { FormHelperText, Grid } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
 import CustomInput from 'views/customerDetails/CustomInput';
@@ -44,18 +44,21 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                 }}
                 enableReinitialize
                 validationSchema={Yup.object().shape({
-                    name: Yup.string().max(255).required('Name Name is required'),
-                    email: Yup.string().max(255).required('email Name is required'),
+                    name: Yup.string().max(255).required('Name is required'),
+                    email: Yup.string().max(255).required('Email is required'),
                     mobileNo: Yup.string().min(10, 'Please Enter Valid Mobile Number').required('Mobile Number is required'),
-                    address: Yup.string().max(255).required('address Name is required'),
+                    address: Yup.string().max(255).required('Address is required'),
                     gstNo: Yup.string().max(255).required('GST No. is required')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                onSubmit={async (values, { setErrors, setStatus, setSubmitting, preventDefault }) => {
                     try {
                         if (add) {
+                            setSubmitting(true);
                             updateCandidate(values, navigate);
                         } else updateCandidate(userDetails._id, values, navigate);
+                        setStatus({ success: true });
                         setReadOnly(true);
+                        setSubmitting(false);
                     } catch (err) {
                         setStatus({ success: false });
                         setErrors({ submit: err.message });
@@ -64,7 +67,13 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
-                    <form noValidate onSubmit={handleSubmit}>
+                    <Form
+                        noValidate
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit(e);
+                        }}
+                    >
                         {console.log({ errors, touched })}
                         <CardContent
                             sx={{
@@ -177,7 +186,7 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                                 </Grid>
                             </FormControl>
                         </CardContent>
-                    </form>
+                    </Form>
                 )}
             </Formik>
         </Card>
