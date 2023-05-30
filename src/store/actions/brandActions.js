@@ -75,7 +75,7 @@ export const createBrand = (details) => async (dispatch) => {
             headers: headers
         });
 
-        if (status === 201) {
+        if (status === 200) {
             const { data: brand, message } = data;
             dispatch({
                 type: CREATE_BRAND_SUCCESS,

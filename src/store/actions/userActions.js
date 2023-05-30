@@ -111,7 +111,7 @@ export const adduser = (userData, navigate) => async (dispatch) => {
             data: { message }
         } = await API.post(`/user`, userData);
 
-        if (status === 201) {
+        if (status === 200) {
             Notification('success', message);
             dispatch({
                 type: ADD_USER_SUCCESS

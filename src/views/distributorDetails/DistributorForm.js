@@ -65,6 +65,7 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
+                        {console.log({ errors, touched })}
                         <CardContent
                             sx={{
                                 p: 3,
@@ -113,7 +114,7 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                                     </Grid>
                                     <Grid component="form" item xs={6}>
                                         <CustomInput
-                                            id="phone"
+                                            id="mobileNo"
                                             name="mobileNo"
                                             value={values.mobileNo}
                                             // onChange={changeField}

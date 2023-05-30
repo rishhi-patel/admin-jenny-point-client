@@ -91,7 +91,7 @@ export const createCategory = (details) => async (dispatch) => {
             headers: headers
         });
 
-        if (status === 201) {
+        if (status === 200) {
             const { data: category, message } = data;
             dispatch({
                 type: CREATE_CATEGORY_SUCCESS,
@@ -239,7 +239,7 @@ export const createSubCategory = (details, _id) => async (dispatch) => {
         });
         const { data, status } = await API.post(`/category/${_id}/sub`, details);
 
-        if (status === 201) {
+        if (status === 200) {
             const { data: category, message } = data;
             dispatch({
                 type: CREATE_SUB_CATEGORY_SUCCESS,

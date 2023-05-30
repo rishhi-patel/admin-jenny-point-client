@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Loading from 'layout/loader/Loading';
 import SettingsCard from 'views/customerDetails/SettingsCard';
 import { useNavigate } from 'react-router';
+import DistributorForm from './DistributorForm';
 
 const AddDistributor = ({ selectedCandidate, loading, updateCandidate }) => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const AddDistributor = ({ selectedCandidate, loading, updateCandidate }) => {
         name: '',
         email: '',
         isBlocked: false,
-        phoneNo: '',
+        mobileNo: '',
         address: '',
         gstNo: ''
     });
@@ -34,7 +35,7 @@ const AddDistributor = ({ selectedCandidate, loading, updateCandidate }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <SettingsCard userDetails={userDetails} setUserDetails={setUserDetails} updateCandidate={updateCandidate} add />
+                <DistributorForm userDetails={userDetails} setUserDetails={setUserDetails} updateCandidate={updateCandidate} add />
             )}
         </MainCard>
     );

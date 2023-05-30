@@ -57,7 +57,7 @@ export const createJob = (jobDetails, navigate) => async (dispatch) => {
             status
         } = await API.post(`/job`, jobDetails);
 
-        if (status === 201) {
+        if (status === 200) {
             dispatch({
                 type: CREATE_JOB_SUCCESS,
                 payload: data

@@ -78,7 +78,7 @@ export const createProduct = (details, navigate) => async (dispatch) => {
         });
         const { data, status } = await API.post('/product', details);
 
-        if (status === 201) {
+        if (status === 200) {
             const { data: product, message } = data;
             dispatch({
                 type: CREATE_PRODUCT_SUCCESS,
