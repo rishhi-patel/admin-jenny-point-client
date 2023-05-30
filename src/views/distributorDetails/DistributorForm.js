@@ -48,7 +48,9 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                     email: Yup.string().max(255).required('Email is required'),
                     mobileNo: Yup.string().min(10, 'Please Enter Valid Mobile Number').required('Mobile Number is required'),
                     address: Yup.string().max(255).required('Address is required'),
-                    gstNo: Yup.string().max(255).required('GST No. is required')
+                    gstNo: Yup.string()
+                        .matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, 'Invalid GST Number')
+                        .required('GST Number is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting, preventDefault }) => {
                     try {
