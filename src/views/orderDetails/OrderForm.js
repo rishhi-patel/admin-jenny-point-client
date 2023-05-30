@@ -133,8 +133,9 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             </FormHelperText>
                                         )}
                                     </Grid>
+                                    {console.log({ dist: values.distributor })}
                                     <Grid item xs={6}>
-                                        {distributors.length && (
+                                        {Boolean(distributors.length) && (
                                             <>
                                                 <CustomInput
                                                     select
@@ -143,7 +144,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                     onChange={(e) => assignOrder(e.target.value, values._id)}
                                                     disabled={readOnly}
                                                     title="Assigned Distributor"
-                                                    value={values.distributor}
+                                                    value={values?.distributor?._id}
                                                     error={touched.distributors && errors.distributors}
                                                     content={distributors.map((option) => (
                                                         <MenuItem value={option.value}>{option.label}</MenuItem>

@@ -74,12 +74,13 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
                                                     otp: ''
                                                 }}
                                                 validationSchema={Yup.object().shape({
-                                                    mobileNo: Yup.string().max(255).required('Mobile Number is required')
+                                                    mobileNo: Yup.string()
+                                                        .min(10, 'Please Enter Valid Mobile Number')
+                                                        .required('Mobile Number is required')
                                                 })}
                                                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                                                     try {
                                                         if (otpSent) {
-                                                            console.log('Verify');
                                                             verifyUserOtp({ mobileNo: values.mobileNo, otp: Number(values.otp) }, navigate);
                                                         } else {
                                                             setOtpSent(true);
@@ -111,6 +112,15 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
                                                                 onChange={handleChange}
                                                                 label="Mobile Number"
                                                                 inputProps={{}}
+                                                                onKeyPress={(event) => {
+                                                                    var charCode = event.which ? event.which : event.keyCode;
+                                                                    if (
+                                                                        String.fromCharCode(charCode).match(/[^0-9]/g) ||
+                                                                        event.target.value.length > 9
+                                                                    ) {
+                                                                        event.preventDefault();
+                                                                    }
+                                                                }}
                                                             />
                                                             {touched.mobileNo && errors.mobileNo && (
                                                                 <FormHelperText error id="standard-weight-helper-text-mobileNo-login">

@@ -46,7 +46,7 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                 validationSchema={Yup.object().shape({
                     name: Yup.string().max(255).required('Name Name is required'),
                     email: Yup.string().max(255).required('email Name is required'),
-                    mobileNo: Yup.string().max(255).required('mobileNo Name is required'),
+                    mobileNo: Yup.string().min(10, 'Please Enter Valid Mobile Number').required('Mobile Number is required'),
                     address: Yup.string().max(255).required('address Name is required'),
                     gstNo: Yup.string().max(255).required('GST No. is required')
                 })}
@@ -123,6 +123,12 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                                             error={touched.mobileNo && errors.mobileNo}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
+                                            onKeyPress={(event) => {
+                                                var charCode = event.which ? event.which : event.keyCode;
+                                                if (String.fromCharCode(charCode).match(/[^0-9]/g) || event.target.value.length > 9) {
+                                                    event.preventDefault();
+                                                }
+                                            }}
                                         />
                                         {touched.mobileNo && errors.mobileNo && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">

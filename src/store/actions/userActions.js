@@ -190,7 +190,7 @@ export const generateOTP = (mobileNo) => async (dispatch) => {
         const {
             data: { message },
             status
-        } = await API.post(`/user/login`, { mobileNo });
+        } = await API.post(`/admin/login`, { mobileNo });
 
         if (status === 200) {
             Notification('success', message);

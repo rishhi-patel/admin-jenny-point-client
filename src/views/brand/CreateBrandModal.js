@@ -67,7 +67,7 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                         <>
                             <IconButton
                                 aria-label="delete"
-                                sx={{ position: 'absolute', right: 32, marginTop: '12px' }}
+                                sx={{ position: 'absolute', right: 32, marginTop: '12px', color: '#FFFFFF' }}
                                 onClick={() => {
                                     setImage(null);
                                     setBrandDetails((oldSate) => {
@@ -75,7 +75,7 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                                     });
                                 }}
                             >
-                                <CancelIcon />
+                                <CancelIcon sx={{ path: { stroke: 'black' } }} />
                             </IconButton>
                             <CardMedia sx={{ height: 200, borderRadius: '12px', marginTop: '13px' }} image={image} title="green iguana" />
                         </>

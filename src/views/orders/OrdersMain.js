@@ -50,7 +50,7 @@ const CandidateRows = ({ userData, i, blockUser }) => {
                 {moment(userData.createdAt).format('Do MMMM YYYY ,  h:mm a')}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
-                {userData.totalPrice}
+                ₹{userData.totalPrice}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
                 <Link to={userData._id}>
