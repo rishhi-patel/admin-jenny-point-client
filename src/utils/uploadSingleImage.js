@@ -81,7 +81,16 @@ export const UploadSingleImage = ({ imgData, updateImage, disabled = false, erro
                         disabled={disabled}
                     >
                         <input hidden accept="image/*" type="file" onChange={(e) => changeImage(e.target.files[0])} disabled={loading} />
-                        {loading ? <CircularProgress color="secondary" /> : <CloudUploadIcon />}
+                        {loading ? (
+                            <CircularProgress color="secondary" />
+                        ) : (
+                            <CloudUploadIcon
+                                sx={{
+                                    height: '30%',
+                                    width: '100%'
+                                }}
+                            />
+                        )}
                     </IconButton>
                     {error && (
                         <FormHelperText error id="standard-weight-helper-text-email-login">

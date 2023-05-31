@@ -68,8 +68,8 @@ export default function OfferForm({ offerDetails, add, readOnly, setReadOnly, sa
                         >
                             <FormControl fullWidth>
                                 <Grid container direction={{ xs: 'column', md: 'row' }} columnSpacing={5} rowSpacing={3}>
-                                    <Grid xs={4} />
-                                    <Grid component="form" item xs={3} sx={{ minHeight: 200 }}>
+                                    <Grid xs={3} />
+                                    <Grid item xs={6} sx={{ height: 300 }}>
                                         <UploadSingleImage
                                             imgData={image}
                                             error={errors.image}
@@ -77,7 +77,7 @@ export default function OfferForm({ offerDetails, add, readOnly, setReadOnly, sa
                                             disabled={readOnly}
                                         />
                                     </Grid>
-                                    <Grid xs={4} />
+                                    <Grid xs={3} />
                                     <Grid component="form" item xs={6}>
                                         <CustomInput
                                             id="title"
