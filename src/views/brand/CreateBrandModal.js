@@ -27,10 +27,8 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
     const [image, setImage] = useState(null);
     const [brandDetails, setBrandDetails] = useState({ name: '', image: null });
     const [newImage, setnewImage] = useState(false);
-    const [isLoading, setisLoading] = useState(false);
 
     const handleClose = () => {
-        setisLoading(false);
         setOpen(false);
         setImage(null);
         setBrandDetails({ name, image: null });
@@ -56,7 +54,6 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
             setBrandDetails({ name: '', image: null });
             setImage(null);
             setnewImage(false);
-            setisLoading(false);
         }
     }, [open]);
 
@@ -74,7 +71,7 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
 
     const handleUpload = (e) => {
         e.preventDefault();
-        setisLoading(true);
+
         const formData = new FormData();
         formData.append('name', brandDetails.name);
         formData.append('image', brandDetails.image);
@@ -161,8 +158,8 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                                 Cancel
                             </Button>
                         )}{' '}
-                        <Button variant="contained" color="secondary" sx={{ width: '45%' }} disabled={isLoading} onClick={handleUpload}>
-                            {isLoading ? <CircularProgress style={{ height: 20, width: 20 }} /> : 'Save'}
+                        <Button variant="contained" color="secondary" sx={{ width: '45%' }} onClick={handleUpload}>
+                            Save
                         </Button>
                     </Box>
                 </Box>

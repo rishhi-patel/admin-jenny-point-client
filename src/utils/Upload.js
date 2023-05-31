@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CancelIcon from '@mui/icons-material/Cancel';
 import API from 'API';
+import ImageCropper from './ImageCropper';
 
 const headers = {
     'Content-Type': 'multipart/form-data'
 };
 
 export const Upload = ({ imgData, updateImage, index, disabled = false, error, values }) => {
-    const { url, key } = imgData;
+    const { url } = imgData;
+    const [open, setOpen] = useState(false);
     const [image, setImage] = useState(null);
     const [isNewImage, setIsNewImage] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -18,9 +20,13 @@ export const Upload = ({ imgData, updateImage, index, disabled = false, error, v
         if (url) setImage(url);
     }, [imgData, url]);
 
-    const changeImage = async (file) => {
-        setIsNewImage(true);
+    const changeImage = (file) => {
+        setOpen(true);
+        setImage(URL.createObjectURL(file));
+    };
+    const CloudUpload = async (file) => {
         setLoading(true);
+        setImage(null);
         const formData = new FormData();
         formData.append('image', file);
         const {
@@ -28,21 +34,21 @@ export const Upload = ({ imgData, updateImage, index, disabled = false, error, v
         } = await API.post('/product/image', formData, {
             headers
         });
-        setImage(URL.createObjectURL(file));
 
         updateImage((oldState) => {
             const imgs = [...oldState.images];
             imgs.splice(index, 1, data);
             return { ...oldState, ...values, images: imgs };
         });
+        setOpen(false);
         setLoading(false);
     };
 
     const removeImage = async () => {
         setImage(null);
         setLoading(true);
-        await API.post(`/product/image/${key}`);
-        // remove mage
+        // await API.post(`/product/image/${key}`);
+        // // remove mage
         updateImage((oldState) => {
             const imgs = [...oldState.images];
             imgs.splice(index, 1, { key: '', url: null });
@@ -90,6 +96,7 @@ export const Upload = ({ imgData, updateImage, index, disabled = false, error, v
                     )}
                 </>
             )}
+            <ImageCropper image={image} CloudUpload={CloudUpload} open={open} setOpen={setOpen} setImage={setImage} />
         </>
     );
 };
