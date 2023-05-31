@@ -3,23 +3,30 @@ import { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CancelIcon from '@mui/icons-material/Cancel';
 import API from 'API';
+import ImageCropper from './ImageCropper';
 
 const headers = {
     'Content-Type': 'multipart/form-data'
 };
 
 export const UploadSingleImage = ({ imgData, updateImage, disabled = false, error, values = {} }) => {
-    const { url, key } = imgData;
+    const { url } = imgData;
+    const [open, setOpen] = useState(false);
     const [image, setImage] = useState(null);
-    const [isNewImage, setIsNewImage] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (url) setImage(url);
     }, [imgData, url]);
 
-    const changeImage = async (file) => {
-        setIsNewImage(true);
+    const changeImage = (file) => {
+        setOpen(true);
+        setImage(URL.createObjectURL(file));
+    };
+
+    const CloudUpload = async (file) => {
+        setImage(null);
+        setOpen(false);
         setLoading(true);
         const formData = new FormData();
         formData.append('image', file);
@@ -28,8 +35,6 @@ export const UploadSingleImage = ({ imgData, updateImage, disabled = false, erro
         } = await API.post('/product/image', formData, {
             headers
         });
-        setImage(URL.createObjectURL(file));
-
         updateImage((oldState) => {
             return { ...oldState, ...values, image: data };
         });
@@ -39,7 +44,7 @@ export const UploadSingleImage = ({ imgData, updateImage, disabled = false, erro
     const removeImage = async () => {
         setImage(null);
         setLoading(true);
-        await API.post(`/product/image/${key}`);
+        // await API.post(`/product/image/${key}`);
         updateImage((oldState) => {
             return { ...oldState, ...values, image: { key: '', url: '' } };
         });
@@ -85,6 +90,7 @@ export const UploadSingleImage = ({ imgData, updateImage, disabled = false, erro
                     )}
                 </>
             )}
+            <ImageCropper image={image} CloudUpload={CloudUpload} open={open} setOpen={setOpen} setImage={setImage} />
         </>
     );
 };

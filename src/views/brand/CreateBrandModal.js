@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CustomInput from 'views/customerDetails/CustomInput';
-import { CardMedia, IconButton } from '@mui/material';
+import { CardMedia, CircularProgress, IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Cropper from 'react-cropper';
 
 const style = {
     position: 'absolute',
@@ -21,16 +23,21 @@ const style = {
 };
 
 export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBrand, updateBrandDetails }) {
+    const cropperRef = useRef(null);
     const [image, setImage] = useState(null);
     const [brandDetails, setBrandDetails] = useState({ name: '', image: null });
+    const [newImage, setnewImage] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
 
     const handleClose = () => {
+        setisLoading(false);
         setOpen(false);
         setImage(null);
         setBrandDetails({ name, image: null });
     };
 
     const changeImage = (file) => {
+        setnewImage(true);
         setImage(URL.createObjectURL(file));
         setBrandDetails((oldVal) => {
             return { ...oldVal, image: file };
@@ -48,9 +55,26 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
         if (!open) {
             setBrandDetails({ name: '', image: null });
             setImage(null);
+            setnewImage(false);
+            setisLoading(false);
         }
     }, [open]);
-    const handleSaveData = () => {
+
+    const onCrop = (e) => {
+        e.preventDefault();
+        const cropper = cropperRef.current?.cropper;
+        if (cropper) {
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                setBrandDetails((oldVal) => {
+                    return { ...oldVal, image: blob };
+                });
+            }, 'image/jpeg');
+        }
+    };
+
+    const handleUpload = (e) => {
+        e.preventDefault();
+        setisLoading(true);
         const formData = new FormData();
         formData.append('name', brandDetails.name);
         formData.append('image', brandDetails.image);
@@ -63,7 +87,9 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
                     <Typography variant="h3">Brand</Typography>
-                    {image ? (
+                    {newImage ? (
+                        <Cropper ref={cropperRef} src={image} guides={true} crop={onCrop} />
+                    ) : image ? (
                         <>
                             <IconButton
                                 aria-label="delete"
@@ -77,23 +103,29 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                             >
                                 <CancelIcon sx={{ path: { stroke: 'black' } }} />
                             </IconButton>
-                            <CardMedia sx={{ height: 200, borderRadius: '12px', marginTop: '13px' }} image={image} title="green iguana" />
+                            <img src={image} alt="" style={{ height: 200, width: '100%', borderRadius: '12px', marginTop: '13px' }} />
                         </>
                     ) : (
                         <>
                             <IconButton
-                                color="primary"
-                                aria-label="upload picture"
+                                aria-label="delete"
+                                sx={{
+                                    height: '200px',
+                                    width: '100%',
+                                    borderRadius: 6,
+                                    border: '1px solid',
+                                    margin: '13px 0'
+                                }}
                                 component="label"
-                                style={{ margin: '0 auto', display: 'block', borderRadius: 0 }}
+                                color="secondary"
+                                variant="filledTonal"
                             >
                                 <input hidden accept="image/*" type="file" onChange={(e) => changeImage(e.target.files[0])} />
-                                <img
-                                    src={
-                                        'https://assets.upload.io/website/blog_assets/icons/material/icons/add_photo_alternate_outlined.svg'
-                                    }
-                                    alt=""
-                                    style={{ height: 200, width: 200 }}
+                                <CloudUploadIcon
+                                    sx={{
+                                        height: '30%',
+                                        width: '100%'
+                                    }}
                                 />
                             </IconButton>
                         </>
@@ -116,6 +148,7 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                                 sx={{ width: '45%' }}
                                 onClick={() => {
                                     setImage(null);
+                                    setnewImage(false);
                                     setBrandDetails((oldSate) => {
                                         return { ...oldSate, name: '', image: null };
                                     });
@@ -128,8 +161,8 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                                 Cancel
                             </Button>
                         )}{' '}
-                        <Button variant="contained" color="secondary" sx={{ width: '45%' }} onClick={() => handleSaveData()}>
-                            Save
+                        <Button variant="contained" color="secondary" sx={{ width: '45%' }} disabled={isLoading} onClick={handleUpload}>
+                            {isLoading ? <CircularProgress style={{ height: 20, width: 20 }} /> : 'Save'}
                         </Button>
                     </Box>
                 </Box>
