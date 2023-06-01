@@ -22,6 +22,7 @@ const ImageCropper = ({ image, CloudUpload, open, setOpen, setImage }) => {
 
     const handleUpload = (e) => {
         e.preventDefault();
+        setOpen(false);
         const cropper = cropperRef.current?.cropper;
         if (cropper) {
             cropper.getCroppedCanvas().toBlob((blob) => {
@@ -37,7 +38,7 @@ const ImageCropper = ({ image, CloudUpload, open, setOpen, setImage }) => {
         <div>
             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                    <Cropper ref={cropperRef} src={image} guides={true} />
+                    <Cropper ref={cropperRef} src={image} guides={true} style={{ height: '50vh' }} />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '13px' }}>
                         <Button variant="outlined" color="error" sx={{ width: '45%' }} onClick={handleClose}>
                             Cancel
