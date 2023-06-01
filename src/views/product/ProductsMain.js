@@ -59,7 +59,7 @@ const CandidateRows = ({ product, i, navigate, deleteProductById }) => {
                 {product.name}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
-                {product.price}
+                ₹{product.price}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
                 {product.minQuantity}
