@@ -9,7 +9,7 @@ import {
 } from 'store/constant';
 import Notification from 'utils/Notification';
 
-export const getOrders = (status) => async (dispatch) => {
+export const getOrders = (params) => async (dispatch) => {
     try {
         dispatch({
             type: GET_ORDERS
@@ -17,7 +17,7 @@ export const getOrders = (status) => async (dispatch) => {
         const {
             data: { data, message },
             status
-        } = await API.get(`/admin/order`);
+        } = await API.get(`/admin/order`, params);
 
         if (status === 200) {
             dispatch({

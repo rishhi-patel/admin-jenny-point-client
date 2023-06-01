@@ -29,6 +29,8 @@ const MainCard = forwardRef(
             title,
             btnText,
             btnEvent,
+            btnText1,
+            btnEvent1,
             dltBtn,
             dltBtnEvent,
             cancelBtnEvent,
@@ -57,6 +59,11 @@ const MainCard = forwardRef(
                     {btnText && (
                         <Button variant="contained" color="secondary" onClick={btnEvent}>
                             {btnText}
+                        </Button>
+                    )}
+                    {btnText1 && (
+                        <Button variant="contained" color="secondary" onClick={btnEvent1} sx={{ ml: 2 }}>
+                            {btnText1}
                         </Button>
                     )}
                     {dltBtn && (

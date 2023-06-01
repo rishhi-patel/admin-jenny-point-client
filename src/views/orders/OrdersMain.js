@@ -1,4 +1,4 @@
-import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination } from '@mui/material';
+import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination, Grid, MenuItem } from '@mui/material';
 import { Box } from '@mui/system';
 import MainCard from 'ui-component/cards/MainCard';
 import styled from '@emotion/styled';
@@ -10,6 +10,20 @@ import { blockCandidate } from 'store/actions/userActions';
 import Loading from 'layout/loader/Loading';
 import moment from 'moment';
 import { getOrders } from 'store/actions/orderActions';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TextField } from '@mui/material';
+import CustomInput from 'views/customerDetails/CustomInput';
+import exportFactory from 'views/utilities/exportFactory';
+
+const statusList = [
+    { label: 'Order Placed', value: 'Order Placed' },
+    { label: 'In Process', value: 'In Process' },
+    { label: 'In Packaging', value: 'In Packaging' },
+    { label: 'Out For Delivery', value: 'Out ,for Delivery' },
+    { label: 'Delivered', value: 'Delivered' }
+];
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: 'pre',
@@ -21,17 +35,7 @@ const StyledTable = styled(Table)(() => ({
     }
 }));
 
-const CandidateRows = ({ userData, i, blockUser }) => {
-    const [checked, setChecked] = useState(false);
-
-    useEffect(() => {
-        setChecked(userData.isBlocked);
-    }, userData);
-
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
-        blockUser({ _id: userData._id, isBlocked: event.target.checked });
-    };
+const CandidateRows = ({ userData, i }) => {
     return (
         <TableRow>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
@@ -64,11 +68,17 @@ const CandidateRows = ({ userData, i, blockUser }) => {
 const OrdersMain = ({ getOrders, orders, loading, blockUser }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [status, setstatus] = useState(null);
 
-    useEffect(() => {
-        getOrders({ params: { userType: 'customer' } });
-    }, [getOrders]);
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+    };
 
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+    };
     const handleChangePage = (_, newPage) => {
         setPage(newPage);
     };
@@ -78,9 +88,76 @@ const OrdersMain = ({ getOrders, orders, loading, blockUser }) => {
         setPage(0);
     };
 
+    useEffect(() => {
+        getOrders({});
+    }, []);
+
+    useEffect(() => {
+        if (status || (endDate && startDate)) {
+            getOrders({ params: { endDate, startDate, status } });
+        }
+    }, [getOrders, endDate, startDate, status]);
+
     return (
-        <MainCard title="Orders">
+        <MainCard
+            title="Orders"
+            btnText="Export To Excel"
+            btnEvent={() => {
+                exportFactory.exportToExcel(orders);
+            }}
+            btnText1="Export To Csv"
+            btnEvent1={() => {
+                exportFactory.exportToCsv(orders);
+            }}
+        >
             <>
+                <Grid container>
+                    <Grid item xs={12} sm={4} xl={4} />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <Grid container item xs={12} sm={8} xl={8} spacing={2}>
+                            <Grid item xs={12} sm={4} xl={4}>
+                                <CustomInput
+                                    select
+                                    id="status"
+                                    name="status"
+                                    // onChange={(e) => assignOrder(e.target.value, values._id)}
+                                    // value={values?.distributor?._id}
+                                    onChange={(e) => setstatus(e.target.value)}
+                                    label="Status"
+                                    content={statusList.map((option) => (
+                                        <MenuItem value={option.value}>{option.label}</MenuItem>
+                                    ))}
+                                    sx={{
+                                        width: '100%',
+                                        '&>div': { height: '51px !important' },
+                                        '&>label': { lineHeight: '2rem' },
+                                        margin: 0
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4} xl={4}>
+                                <DatePicker
+                                    label="Start Date"
+                                    value={startDate}
+                                    onChange={handleStartDateChange}
+                                    renderInput={(params) => <TextField {...params} />}
+                                    sx={{ width: '100%' }}
+                                    format="DD-MM-YYYY"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4} xl={4}>
+                                <DatePicker
+                                    label="End Date"
+                                    value={endDate}
+                                    onChange={handleEndDateChange}
+                                    renderInput={(params) => <TextField {...params} />}
+                                    sx={{ width: '100%' }}
+                                    format="DD-MM-YYYY"
+                                />
+                            </Grid>
+                        </Grid>
+                    </LocalizationProvider>
+                </Grid>
                 {loading ? (
                     <Loading />
                 ) : (
@@ -129,7 +206,7 @@ const mapStateToProps = ({ order }) => {
     return { orders, loading };
 };
 const mapDispatchToProps = (dispatch) => ({
-    getOrders: () => dispatch(getOrders()),
+    getOrders: (params) => dispatch(getOrders(params)),
     blockUser: (userData) => dispatch(blockCandidate(userData))
 });
 
