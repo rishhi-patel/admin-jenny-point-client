@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
-import { FormHelperText, Grid, MenuItem } from '@mui/material';
+import { Button, FormHelperText, Grid, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -219,12 +219,25 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             value={values.shippingAddress}
                                             title="Address"
                                             multiline
-                                            minRows={11}
+                                            minRows={8}
                                         />{' '}
                                         {touched.address && errors.address && (
                                             <FormHelperText error id="standard-weight-helper-text-email-login">
                                                 {errors.address}
                                             </FormHelperText>
+                                        )}
+                                        {values.invoice && (
+                                            <Button
+                                                fullWidth
+                                                color="secondary"
+                                                component="a"
+                                                variant="contained"
+                                                href={values.invoice.url}
+                                                rel="noopener noreferrer"
+                                                sx={{ marginTop: '6px' }}
+                                            >
+                                                Download Invoice
+                                            </Button>
                                         )}
                                     </Grid>
                                     <button type="submit" id="customerSubmit" style={{ display: 'none', opacity: 0 }} />
