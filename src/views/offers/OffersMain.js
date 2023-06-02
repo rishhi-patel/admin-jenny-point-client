@@ -22,9 +22,9 @@ const OffersMain = ({ loading, offers, fetchOffers, updateSelectedOffer, deleteO
             {loading ? (
                 <Loading />
             ) : (
-                <Grid container spacing={6}>
+                <Grid container spacing={4}>
                     {offers.map((offer) => (
-                        <Grid item xl={3} lg={3} md={6} sm={6} xs={12} key={offer._id}>
+                        <Grid item md={6} sm={6} xs={12} key={offer._id}>
                             <OfferCard offer={offer} updateSelectedOffer={updateSelectedOffer} deleteOfferById={deleteOfferById} />
                         </Grid>
                     ))}

@@ -21,7 +21,7 @@ const statusList = [
     { label: 'Order Placed', value: 'Order Placed' },
     { label: 'In Process', value: 'In Process' },
     { label: 'In Packaging', value: 'In Packaging' },
-    { label: 'Out For Delivery', value: 'Out ,for Delivery' },
+    { label: 'Out For Delivery', value: 'Out for Delivery' },
     { label: 'Delivered', value: 'Delivered' }
 ];
 

@@ -16,8 +16,8 @@ export default function OfferCard({ offer, updateSelectedOffer, deleteOfferById 
     const { image, title } = offer;
     const navigate = useNavigate();
     return (
-        <Card sx={{ maxWidth: 345, boxShadow: 3, position: 'relative' }}>
-            <Box sx={{ height: 150 }}>
+        <Card sx={{ boxShadow: 3, position: 'relative' }}>
+            <Box sx={{ height: 250 }}>
                 <img src={image.url} alt="" style={{ height: '100%', width: '100%' }} />
             </Box>
             <CardContent>
