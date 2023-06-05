@@ -83,7 +83,7 @@ export default function CreateCategoryModal({ open, setOpen, saveCategory, selec
                 <Box sx={style}>
                     <Typography variant="h3">Category</Typography>
                     {newImage ? (
-                        <Cropper ref={cropperRef} src={image} guides={true} crop={onCrop} />
+                        <Cropper aspectRatio={1} ref={cropperRef} src={image} guides={true} crop={onCrop} />
                     ) : image ? (
                         <>
                             <IconButton

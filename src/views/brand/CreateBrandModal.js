@@ -85,7 +85,7 @@ export default function CreateBrandModal({ open, setOpen, saveBrand, selectedBra
                 <Box sx={style}>
                     <Typography variant="h3">Brand</Typography>
                     {newImage ? (
-                        <Cropper ref={cropperRef} src={image} guides={true} crop={onCrop} />
+                        <Cropper aspectRatio={1} ref={cropperRef} src={image} guides={true} crop={onCrop} />
                     ) : image ? (
                         <>
                             <IconButton
