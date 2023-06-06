@@ -111,7 +111,7 @@ const OrderDetails = ({ getCandidateDetails, selectedOrder, loading, updateCandi
                             </TableHead>
                             <TableBody style={{ padding: '10px' }}>
                                 {orderItems.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((userData, i) => (
-                                    <CandidateRows key={userData._id} userData={userData} i={i} />
+                                    <CandidateRows key={userData._id} userData={userData} i={page * rowsPerPage + i} />
                                 ))}
                                 <TableRow>
                                     <TableCell align="center" style={{ paddingLeft: 16 }}>

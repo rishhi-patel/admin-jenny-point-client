@@ -147,7 +147,7 @@ const CategoryDetailsMain = ({
                                     <CandidateRows
                                         key={category._id}
                                         category={category}
-                                        i={i}
+                                        i={page * rowsPerPage + i}
                                         id={id}
                                         updateSelectedCategory={updateSelectedCategory}
                                         deleteCategoryById={deleteCategoryById}

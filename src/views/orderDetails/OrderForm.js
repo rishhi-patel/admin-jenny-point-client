@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router';
 import CustomInput from 'views/customerDetails/CustomInput';
 import { useEffect } from 'react';
 import API from 'API';
+import { width } from '@mui/system';
 
 //APP
 export default function OrderForm({ userDetails, add, readOnly, setReadOnly, updateCandidate, assignOrder }) {
@@ -209,23 +210,36 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             </FormHelperText>
                                         )}
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <CustomInput
-                                            id="Address"
-                                            name="address"
-                                            // onBlur={handleBlur}
-                                            // onChange={handleChange}
-                                            disabled={readOnly}
-                                            value={values.shippingAddress}
-                                            title="Address"
-                                            multiline
-                                            minRows={8}
-                                        />{' '}
-                                        {touched.address && errors.address && (
-                                            <FormHelperText error id="standard-weight-helper-text-email-login">
-                                                {errors.address}
-                                            </FormHelperText>
-                                        )}
+                                    <Grid container item xs={6} spacing={2}>
+                                        <Grid item xs={6}>
+                                            {' '}
+                                            <CustomInput
+                                                id="Address"
+                                                name="address"
+                                                // onBlur={handleBlur}
+                                                // onChange={handleChange}
+                                                disabled={readOnly}
+                                                value={values.shippingAddress}
+                                                title="Address"
+                                                multiline
+                                                minRows={7}
+                                            />{' '}
+                                            {touched.address && errors.address && (
+                                                <FormHelperText error id="standard-weight-helper-text-email-login">
+                                                    {errors.address}
+                                                </FormHelperText>
+                                            )}
+                                        </Grid>
+                                        {console.log({ img: values?.invoice?.url })}
+                                        <Grid item xs={6}>
+                                            {values.invoice && values.invoice.url !== '' && (
+                                                <img
+                                                    src={values.invoice.url}
+                                                    alt="test"
+                                                    style={{ height: 160, width: '100%', marginTop: '26px', borderRadius: 12 }}
+                                                />
+                                            )}
+                                        </Grid>
                                         {values.invoice && (
                                             <Button
                                                 fullWidth
@@ -234,12 +248,14 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 variant="contained"
                                                 href={values.invoice.url}
                                                 rel="noopener noreferrer"
-                                                sx={{ marginTop: '6px' }}
+                                                sx={{ height: 40 }}
+                                                disabled={values.invoice && values.invoice.url === ''}
                                             >
                                                 Download Invoice
                                             </Button>
                                         )}
                                     </Grid>
+
                                     <button type="submit" id="customerSubmit" style={{ display: 'none', opacity: 0 }} />
                                 </Grid>
                             </FormControl>

@@ -182,7 +182,7 @@ const ProductsMain = ({ loading, productList, fetchProducts, deleteProductById }
                                         <CandidateRows
                                             key={product._id}
                                             product={product}
-                                            i={i}
+                                            i={page * rowsPerPage + i}
                                             deleteProductById={deleteProductById}
                                             navigate={navigate}
                                         />

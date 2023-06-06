@@ -176,7 +176,12 @@ const OrdersMain = ({ getOrders, orders, loading, blockUser }) => {
                             </TableHead>
                             <TableBody style={{ padding: '10px' }}>
                                 {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((userData, i) => (
-                                    <CandidateRows key={userData._id} userData={userData} i={i} blockUser={blockUser} />
+                                    <CandidateRows
+                                        key={userData._id}
+                                        userData={userData}
+                                        i={page * rowsPerPage + i}
+                                        blockUser={blockUser}
+                                    />
                                 ))}
                             </TableBody>
                         </StyledTable>

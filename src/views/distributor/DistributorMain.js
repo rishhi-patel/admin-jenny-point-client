@@ -193,7 +193,7 @@ const DistributorMain = ({ getCandidateList, customers, loading, blockUser, dele
                                     <CandidateRows
                                         key={userData._id}
                                         userData={userData}
-                                        i={i}
+                                        i={page * rowsPerPage + i}
                                         blockUser={blockUser}
                                         navigate={navigate}
                                         deleteUser={deleteUser}
