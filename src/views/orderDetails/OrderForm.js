@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 // IMPORTS
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
@@ -233,11 +234,15 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                         {console.log({ img: values?.invoice?.url })}
                                         <Grid item xs={6}>
                                             {values.invoice && values.invoice.url !== '' && (
-                                                <img
-                                                    src={values.invoice.url}
-                                                    alt="test"
-                                                    style={{ height: 160, width: '100%', marginTop: '26px', borderRadius: 12 }}
-                                                />
+                                                <>
+                                                    {' '}
+                                                    <label style={{ fontWeight: 'bold' }}>Invoice</label>
+                                                    <img
+                                                        src={values.invoice.url}
+                                                        alt="test"
+                                                        style={{ height: 160, width: '100%', marginTop: '8px', borderRadius: 12 }}
+                                                    />
+                                                </>
                                             )}
                                         </Grid>
                                         {values.invoice && (
@@ -248,7 +253,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 variant="contained"
                                                 href={values.invoice.url}
                                                 rel="noopener noreferrer"
-                                                sx={{ height: 40 }}
+                                                sx={{ height: 40, width: '47%', marginLeft: 'auto' }}
                                                 disabled={values.invoice && values.invoice.url === ''}
                                             >
                                                 Download Invoice
