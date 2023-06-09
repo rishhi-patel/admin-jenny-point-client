@@ -15,6 +15,7 @@ import CustomInput from 'views/customerDetails/CustomInput';
 import { useEffect } from 'react';
 import API from 'API';
 import { width } from '@mui/system';
+import { grey } from '@mui/material/colors';
 
 //APP
 export default function OrderForm({ userDetails, add, readOnly, setReadOnly, updateCandidate, assignOrder }) {
@@ -204,7 +205,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                         : values.currentOrderStatus?.status === 'In Packaging'
                                                         ? grey[600]
                                                         : values.currentOrderStatus?.status === 'Out for Delivery'
-                                                        ? secondary[800]
+                                                        ? 'secondary.dark'
                                                         : values.currentOrderStatus?.status === 'Delivered'
                                                         ? 'rgb(25 116 63)'
                                                         : 'primary.dark',

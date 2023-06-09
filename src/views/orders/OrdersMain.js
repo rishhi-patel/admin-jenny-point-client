@@ -16,6 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField } from '@mui/material';
 import CustomInput from 'views/customerDetails/CustomInput';
 import exportFactory from 'views/utilities/exportFactory';
+import { grey } from '@mui/material/colors';
 
 const statusList = [
     { label: 'Order Placed', value: 'Order Placed' },
@@ -54,7 +55,7 @@ const CandidateRows = ({ userData, i }) => {
                                 : userData.currentOrderStatus?.status === 'In Packaging'
                                 ? grey[600]
                                 : userData.currentOrderStatus?.status === 'Out for Delivery'
-                                ? secondary[800]
+                                ? 'secondary.dark'
                                 : userData.currentOrderStatus?.status === 'Delivered'
                                 ? 'rgb(25 116 63)'
                                 : 'primary.dark',
