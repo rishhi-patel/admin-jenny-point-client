@@ -69,7 +69,7 @@ export const Upload = ({ imgData, updateImage, index, disabled = false, error, v
                             <CancelIcon sx={{ path: { stroke: 'black' } }} />
                         </IconButton>
                     )}
-                    <img src={image} style={{ height: '100%', width: '100%', borderRadius: 6 }} alt="img" />
+                    <img src={image} style={{ height: '100%', width: '100%', borderRadius: 6, border: '2px solid' }} alt="img" />
                 </div>
             ) : (
                 <>

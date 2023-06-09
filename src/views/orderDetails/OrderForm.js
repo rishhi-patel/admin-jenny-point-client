@@ -15,7 +15,6 @@ import CustomInput from 'views/customerDetails/CustomInput';
 import { useEffect } from 'react';
 import API from 'API';
 import { width } from '@mui/system';
-import { ReactComponent as Invoice } from '../../assets/images/invoice.svg';
 
 //APP
 export default function OrderForm({ userDetails, add, readOnly, setReadOnly, updateCandidate, assignOrder }) {
@@ -146,8 +145,8 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                     name="distributors"
                                                     onChange={(e) => assignOrder(e.target.value, values._id)}
                                                     disabled={readOnly}
-                                                    title="Assigned Distributor"
-                                                    value={values?.distributor?._id}
+                                                    title="Assign Distributor"
+                                                    value={values?.distributor?._id || values?.distributor}
                                                     error={touched.distributors && errors.distributors}
                                                     content={distributors.map((option) => (
                                                         <MenuItem value={option.value}>{option.label}</MenuItem>
@@ -198,7 +197,19 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                         <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Order Status</label>
                                         <Chip
                                             label={values.currentOrderStatus?.status}
-                                            color={values.currentOrderStatus?.status === 'Delivered' ? 'success' : 'secondary'}
+                                            sx={{
+                                                backgroundColor:
+                                                    values.currentOrderStatus?.status === 'In Process'
+                                                        ? '#e95858d1'
+                                                        : values.currentOrderStatus?.status === 'In Packaging'
+                                                        ? grey[600]
+                                                        : values.currentOrderStatus?.status === 'Out for Delivery'
+                                                        ? secondary[800]
+                                                        : values.currentOrderStatus?.status === 'Delivered'
+                                                        ? 'rgb(25 116 63)'
+                                                        : 'primary.dark',
+                                                color: '#FFFFFF'
+                                            }}
                                         />
                                         <CustomInput
                                             id="phone"
@@ -218,7 +229,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                         )}
                                     </Grid>
                                     <Grid container item xs={6} spacing={2}>
-                                        <Grid item xs={6}>
+                                        <Grid item sm={6} xs={12}>
                                             {' '}
                                             <CustomInput
                                                 id="Address"
@@ -237,7 +248,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 </FormHelperText>
                                             )}
                                         </Grid>
-                                        <Grid item xs={6}>
+                                        <Grid item sm={6} xs={12}>
                                             {values.invoice && values.invoice.url !== '' ? (
                                                 <>
                                                     {' '}
@@ -249,7 +260,11 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                     />
                                                 </>
                                             ) : (
-                                                <Invoice style={{ height: 160, width: '100%', marginTop: '26px', borderRadius: 12 }} />
+                                                <img
+                                                    src={'https://rons-fitness-dev.s3.ap-northeast-1.amazonaws.com/1686306487173.webp'}
+                                                    style={{ height: 160, width: '100%', marginTop: '26px', borderRadius: 12 }}
+                                                    alt="invoice"
+                                                />
                                             )}
                                         </Grid>
                                         {values.invoice && (
@@ -277,4 +292,5 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
             </Formik>
         </Card>
     );
+    2;
 }

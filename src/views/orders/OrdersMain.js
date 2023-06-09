@@ -1,4 +1,4 @@
-import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination, Grid, MenuItem } from '@mui/material';
+import { Table, TableCell, TableHead, TableRow, TableBody, TablePagination, Grid, MenuItem, Chip } from '@mui/material';
 import { Box } from '@mui/system';
 import MainCard from 'ui-component/cards/MainCard';
 import styled from '@emotion/styled';
@@ -45,7 +45,22 @@ const CandidateRows = ({ userData, i }) => {
                 {userData._id}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
-                {userData.currentOrderStatus?.status}
+                <Chip
+                    label={userData.currentOrderStatus?.status}
+                    sx={{
+                        backgroundColor:
+                            userData.currentOrderStatus?.status === 'In Process'
+                                ? '#e95858d1'
+                                : userData.currentOrderStatus?.status === 'In Packaging'
+                                ? grey[600]
+                                : userData.currentOrderStatus?.status === 'Out for Delivery'
+                                ? secondary[800]
+                                : userData.currentOrderStatus?.status === 'Delivered'
+                                ? 'rgb(25 116 63)'
+                                : 'primary.dark',
+                        color: '#FFFFFF'
+                    }}
+                />
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
                 {userData.distributor?.name}
