@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
-import { FormHelperText, Grid } from '@mui/material';
+import { Button, FormHelperText, Grid } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -184,7 +184,15 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                                         )}
                                     </Grid>
 
-                                    <button type="submit" id="customerSubmit" style={{ display: 'none', opacity: 0 }} />
+                                    <Button
+                                        type="submit"
+                                        id="customerSubmit"
+                                        variant="contained"
+                                        color="secondary"
+                                        style={{ display: 'block', marginLeft: 'auto' }}
+                                    >
+                                        save
+                                    </Button>
                                 </Grid>
                             </FormControl>
                         </CardContent>

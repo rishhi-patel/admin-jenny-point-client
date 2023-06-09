@@ -98,11 +98,14 @@ export const Upload = ({ imgData, updateImage, index, disabled = false, error, v
                             />
                         )}
                     </IconButton>
-                    {index === 0 && error && (
-                        <FormHelperText error id="standard-weight-helper-text-email-login">
-                            First Image is Required
-                        </FormHelperText>
-                    )}
+                    {index === 0 &&
+                        (error ? (
+                            <FormHelperText error id="standard-weight-helper-text-email-login">
+                                Cover Image is Required
+                            </FormHelperText>
+                        ) : (
+                            <FormHelperText id="standard-weight-helper-text-email-login"> Cover Image*</FormHelperText>
+                        ))}
                 </>
             )}
             <ImageCropper image={image} CloudUpload={CloudUpload} open={open} setOpen={setOpen} setImage={setImage} />

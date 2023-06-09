@@ -184,8 +184,8 @@ const DistributorMain = ({ getCandidateList, customers, loading, blockUser, dele
                                     <TableCell align="center">Name</TableCell>
                                     <TableCell align="center">Mobile</TableCell>
                                     <TableCell align="center">Address</TableCell>
-                                    <TableCell align="center">Blocked</TableCell>
-                                    <TableCell align="center">Action</TableCell>
+                                    <TableCell align="center">Block</TableCell>
+                                    <TableCell align="center">Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody style={{ padding: '10px' }}>

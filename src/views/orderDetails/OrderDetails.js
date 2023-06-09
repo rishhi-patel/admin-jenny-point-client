@@ -11,7 +11,6 @@ import OrderForm from './OrderForm';
 import { Box } from '@mui/system';
 import styled from '@emotion/styled';
 import { assignDistributor, getOrderByID } from 'store/actions/orderActions';
-import moment from 'moment';
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: 'pre',

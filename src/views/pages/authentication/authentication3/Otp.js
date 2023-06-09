@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 // material-ui
@@ -23,6 +23,7 @@ import { generateOTP, verifyOTP } from 'store/actions/userActions';
 const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const buttonRef = useRef(null);
     const [otpSent, setOtpSent] = useState(false);
     return (
         <>
@@ -120,6 +121,9 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
                                                                     ) {
                                                                         event.preventDefault();
                                                                     }
+                                                                    if (event.key === 'Enter' && buttonRef.current) {
+                                                                        buttonRef.current.click();
+                                                                    }
                                                                 }}
                                                             />
                                                             {touched.mobileNo && errors.mobileNo && (
@@ -169,6 +173,9 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
                                                                             ) {
                                                                                 event.preventDefault();
                                                                             }
+                                                                            if (event.key === 'Enter' && buttonRef.current) {
+                                                                                buttonRef.current.click();
+                                                                            }
                                                                         }}
                                                                     />
                                                                     {touched.otp && errors.otp && (
@@ -192,6 +199,7 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
                                                         <Box sx={{ mt: 2 }}>
                                                             <AnimateButton>
                                                                 <Button
+                                                                    ref={buttonRef}
                                                                     disableElevation
                                                                     disabled={isSubmitting}
                                                                     fullWidth

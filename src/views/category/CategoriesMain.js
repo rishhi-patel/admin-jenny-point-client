@@ -65,6 +65,9 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
                 {category.name}
             </TableCell>
             <TableCell align="center" style={{ paddingLeft: 16 }}>
+                <img src={category.image.url} alt="category" style={{ height: 100, width: 100 }} />
+            </TableCell>
+            <TableCell align="center" style={{ paddingLeft: 16 }}>
                 <IconButton onClick={handleClick}>
                     <MoreVertIcon />
                 </IconButton>
@@ -84,7 +87,7 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
                     }}
                 >
                     <MenuItem onClick={() => navigate(category._id)}>
-                        <VisibilityIcon color="secondary" sx={{ mr: 1 }} /> View
+                        <VisibilityIcon color="secondary" sx={{ mr: 1 }} /> View Subcategories
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
@@ -184,6 +187,7 @@ const CategoriesMain = ({
                                     <TableRow>
                                         <TableCell align="center">No.</TableCell>
                                         <TableCell align="center">Name</TableCell>
+                                        <TableCell align="center">Image</TableCell>
                                         <TableCell align="center">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -192,7 +196,7 @@ const CategoriesMain = ({
                                         <CandidateRows
                                             key={category._id}
                                             category={category}
-                                              i={page * rowsPerPage + i}
+                                            i={page * rowsPerPage + i}
                                             updateSelectedCategory={updateSelectedCategory}
                                             deleteCategoryById={deleteCategoryById}
                                         />

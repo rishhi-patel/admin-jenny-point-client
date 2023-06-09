@@ -105,7 +105,7 @@ const OrdersMain = ({ getOrders, orders, loading, blockUser }) => {
             btnEvent={() => {
                 exportFactory.exportToExcel(orders);
             }}
-            btnText1="Export To Csv"
+            btnText1="Export CSV"
             btnEvent1={() => {
                 exportFactory.exportToCsv(orders);
             }}
@@ -166,7 +166,7 @@ const OrdersMain = ({ getOrders, orders, loading, blockUser }) => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center">No.</TableCell>
-                                    <TableCell align="center">Order Id</TableCell>
+                                    <TableCell align="center">Order ID</TableCell>
                                     <TableCell align="center">Order Status</TableCell>
                                     <TableCell align="center">Distributor</TableCell>
                                     <TableCell align="center">Order Date</TableCell>

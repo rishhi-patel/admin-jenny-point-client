@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
-import { FormHelperText, Grid, IconButton, MenuItem } from '@mui/material';
+import { Button, FormHelperText, Grid, IconButton, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -113,7 +113,7 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                     brand: Yup.string().max(255).required('Brand is required'),
                     category: Yup.string().max(255).required('Category is required'),
                     subCategory: Yup.string().max(255).required('Sub Category is required'),
-                    description: Yup.string().max(255).required('Description is required'),
+                    description: Yup.string().required('Description is required'),
                     productCode: Yup.string().max(255).required('ProductCode is required'),
                     price: Yup.string().max(255).required('Price is required'),
                     images: Yup.lazy((value) => {
@@ -171,9 +171,9 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                                         <label style={{ fontWeight: 'bold' }} htmlFor={'images'}>
                                             Images
                                         </label>
-                                        <Grid container rowSpacing={3} sx={{ justifyContent: 'space-between', paddingTop: '8px' }}>
+                                        <Grid container sx={{ justifyContent: 'space-between', padding: '8px 0' }}>
                                             {images.map((img, i) => (
-                                                <Grid component="form" item xs={12} lg={2} sx={{ height: 200 }}>
+                                                <Grid item xs={12} lg={2} sx={{ height: 150 }}>
                                                     <Upload
                                                         imgData={img}
                                                         updateImage={setProductDetails}
@@ -345,8 +345,18 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                                             </FormHelperText>
                                         )}
                                     </Grid>
-
-                                    <button type="submit" id="customerSubmit" style={{ display: 'none', opacity: 0 }} />
+                                    <Grid item xs={6}></Grid>
+                                    <Grid item xs={6}>
+                                        <Button
+                                            type="submit"
+                                            id="customerSubmit"
+                                            variant="contained"
+                                            color="secondary"
+                                            style={{ display: 'block', marginLeft: 'auto' }}
+                                        >
+                                            save
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </FormControl>
                         </CardContent>

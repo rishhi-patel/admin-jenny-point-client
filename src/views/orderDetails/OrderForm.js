@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
-import { Button, FormHelperText, Grid, MenuItem } from '@mui/material';
+import { Button, Chip, FormHelperText, Grid, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -15,6 +15,7 @@ import CustomInput from 'views/customerDetails/CustomInput';
 import { useEffect } from 'react';
 import API from 'API';
 import { width } from '@mui/system';
+import { ReactComponent as Invoice } from '../../assets/images/invoice.svg';
 
 //APP
 export default function OrderForm({ userDetails, add, readOnly, setReadOnly, updateCandidate, assignOrder }) {
@@ -177,7 +178,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 {errors.order_id}
                                             </FormHelperText>
                                         )}
-                                        <CustomInput
+                                        {/* <CustomInput
                                             type="orderStatus"
                                             id="orderStatus"
                                             name="orderStatus"
@@ -193,7 +194,12 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             <FormHelperText error id="standard-weight-helper-text-orderStatus-login">
                                                 {errors.orderStatus}
                                             </FormHelperText>
-                                        )}
+                                        )} */}{' '}
+                                        <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Order Status</label>
+                                        <Chip
+                                            label={values.currentOrderStatus?.status}
+                                            color={values.currentOrderStatus?.status === 'Delivered' ? 'success' : 'secondary'}
+                                        />
                                         <CustomInput
                                             id="phone"
                                             name="totalPrice"
@@ -231,9 +237,8 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 </FormHelperText>
                                             )}
                                         </Grid>
-                                        {console.log({ img: values?.invoice?.url })}
                                         <Grid item xs={6}>
-                                            {values.invoice && values.invoice.url !== '' && (
+                                            {values.invoice && values.invoice.url !== '' ? (
                                                 <>
                                                     {' '}
                                                     <label style={{ fontWeight: 'bold' }}>Invoice</label>
@@ -243,6 +248,8 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                         style={{ height: 160, width: '100%', marginTop: '8px', borderRadius: 12 }}
                                                     />
                                                 </>
+                                            ) : (
+                                                <Invoice style={{ height: 160, width: '100%', marginTop: '26px', borderRadius: 12 }} />
                                             )}
                                         </Grid>
                                         {values.invoice && (

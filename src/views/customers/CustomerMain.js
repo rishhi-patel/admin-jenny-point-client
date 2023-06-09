@@ -118,7 +118,7 @@ const CustomerMain = ({ getCandidateList, customers, loading, blockUser }) => {
                                     <TableCell align="center">Name</TableCell>
                                     <TableCell align="center">Mobile</TableCell>
                                     <TableCell align="center">Address</TableCell>
-                                    <TableCell align="center">Blocked</TableCell>
+                                    <TableCell align="center">Block</TableCell>
                                     <TableCell align="center">View</TableCell>
                                 </TableRow>
                             </TableHead>
