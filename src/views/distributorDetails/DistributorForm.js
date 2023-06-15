@@ -45,7 +45,9 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                 enableReinitialize
                 validationSchema={Yup.object().shape({
                     name: Yup.string().max(255).required('Name is required'),
-                    email: Yup.string().max(255).required('Email is required'),
+                    email: Yup.string()
+                        .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email address')
+                        .required('Email is required'),
                     mobileNo: Yup.string().min(10, 'Please Enter Valid Mobile Number').required('Mobile Number is required'),
                     address: Yup.string().max(255).required('Address is required'),
                     gstNo: Yup.string()

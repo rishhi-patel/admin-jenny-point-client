@@ -45,7 +45,9 @@ export default function SettingsCard({ userDetails, add, readOnly, setReadOnly, 
                 enableReinitialize
                 validationSchema={Yup.object().shape({
                     name: Yup.string().max(255).required('Name Name is required'),
-                    email: Yup.string().max(255).required('email Name is required'),
+                    email: Yup.string()
+                        .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email address')
+                        .required('Email is required'),
                     mobileNo: Yup.string().max(255).required('mobileNo Name is required'),
                     address: Yup.string().max(255).required('address Name is required')
                 })}

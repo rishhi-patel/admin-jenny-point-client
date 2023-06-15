@@ -50,7 +50,7 @@ const userReducer = (state = initialState, action) => {
             return { ...state, loading: false };
 
         case GET_CANDIDATES_BY_ID:
-            return { ...state, loading: true };
+            return { ...state, loading: true, selectedCandidate: {} };
         case GET_CANDIDATES_BY_ID_SUCCESS:
             return { ...state, loading: false, selectedCandidate: action.payload };
         case GET_CANDIDATES_BY_ID_ERROR:
