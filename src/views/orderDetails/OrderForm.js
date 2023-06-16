@@ -262,7 +262,7 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                                 </>
                                             ) : (
                                                 <img
-                                                    src={'https://rons-fitness-dev.s3.ap-northeast-1.amazonaws.com/1686306487173.webp'}
+                                                    src={process.env.PUBLIC_URL + '/images/Invoice.png'}
                                                     style={{ height: 160, width: '100%', marginTop: '26px', borderRadius: 12 }}
                                                     alt="invoice"
                                                 />
