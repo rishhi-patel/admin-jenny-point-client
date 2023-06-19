@@ -293,5 +293,4 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
             </Formik>
         </Card>
     );
-    2;
 }
