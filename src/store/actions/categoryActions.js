@@ -63,7 +63,6 @@ export const getCategories = (query) => async (dispatch) => {
 
         if (status === 200) {
             const { data: categories } = data;
-            console.log({ categories });
             dispatch({
                 type: GET_CATEGORIES_SUCCESS,
                 payload: categories
@@ -210,10 +209,8 @@ export const getSubCategories = (_id) => async (dispatch) => {
             type: GET_SUB_CATEGORIES
         });
         const { data, status } = await API.get(`/category/${_id}`);
-        console.log({ data });
         if (status === 200) {
             const { data: subCategories } = data;
-            console.log({ subCategories });
             dispatch({
                 type: GET_SUB_CATEGORIES_SUCCESS,
                 payload: subCategories

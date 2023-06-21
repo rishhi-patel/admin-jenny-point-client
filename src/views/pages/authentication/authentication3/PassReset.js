@@ -49,7 +49,6 @@ const PassReset = ({ updatePassowrd, ...others }) => {
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
-        console.log('submit');
     };
     return (
         <>
@@ -218,9 +217,7 @@ const PassReset = ({ updatePassowrd, ...others }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    console.log({ state });
-};
+const mapStateToProps = (state) => {};
 const mapDispatchToProps = (dispatch) => ({
     updatePassowrd: (data, navigate) => dispatch(resetPassword(data, navigate))
 });

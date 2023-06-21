@@ -23,7 +23,6 @@ const style = {
 
 export default function SubCategoryModal({ open, setOpen, saveCategory, selectedCategory, updateCategoryDetails }) {
     const { id } = useParams();
-    console.log({ id });
     const [categoryDetails, setCategoryDetails] = useState({ name: '' });
     const handleClose = () => {
         setOpen(false);

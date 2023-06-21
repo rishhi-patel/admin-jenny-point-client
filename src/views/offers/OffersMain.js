@@ -36,7 +36,6 @@ const OffersMain = ({ loading, offers, fetchOffers, updateSelectedOffer, deleteO
 
 const mapStateToProps = ({ offer }) => {
     const { loading, offers } = offer;
-    console.log({ offers });
     return { loading, offers };
 };
 const mapDispatchToProps = (dispatch) => ({

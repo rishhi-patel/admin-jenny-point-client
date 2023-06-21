@@ -75,7 +75,6 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                     return { value: elem.name, label: elem.name };
                 })
             );
-            setsubCategories([{ value: sub, label: sub }]);
         })();
     }, [productDetails]);
 
@@ -99,7 +98,7 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                 );
             }
         })();
-    }, [activeCategory, productDetails]);
+    }, [activeCategory, category, productDetails]);
 
     return (
         <Card variant="outlined" sx={{ height: '100%', width: '100%', padding: 0, border: 'none' }}>
@@ -158,7 +157,6 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
-                        {console.log({ errors, handleBlur, handleChange, handleSubmit, touched, values })}
                         <CardContent
                             sx={{
                                 p: 3,

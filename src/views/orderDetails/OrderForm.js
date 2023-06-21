@@ -136,7 +136,6 @@ export default function OrderForm({ userDetails, add, readOnly, setReadOnly, upd
                                             </FormHelperText>
                                         )}
                                     </Grid>
-                                    {console.log({ dist: values.distributor })}
                                     <Grid item xs={6}>
                                         {Boolean(distributors.length) && (
                                             <>

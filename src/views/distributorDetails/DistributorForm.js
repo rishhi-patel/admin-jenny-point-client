@@ -78,7 +78,6 @@ export default function DistributorForm({ userDetails, add, readOnly, setReadOnl
                             handleSubmit(e);
                         }}
                     >
-                        {console.log({ errors, touched })}
                         <CardContent
                             sx={{
                                 p: 3,

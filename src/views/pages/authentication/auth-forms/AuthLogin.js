@@ -46,7 +46,6 @@ const FirebaseLogin = ({ login, ...others }) => {
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
-        console.log('submit');
     };
 
     return (
@@ -80,7 +79,6 @@ const FirebaseLogin = ({ login, ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        console.log({ values });
                         setStatus({ success: true });
                         setSubmitting(true);
                         login(values, navigate);
@@ -194,9 +192,7 @@ const FirebaseLogin = ({ login, ...others }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    console.log({ state });
-};
+const mapStateToProps = (state) => {};
 const mapDispatchToProps = (dispatch) => ({
     login: (values, navigate) => dispatch(authUser(values, navigate))
 });

@@ -25,7 +25,6 @@ const OfferDetailsMain = ({ getOfferDetails, selectedOffer, loading, updateOffer
         getOfferDetails(id);
     }, [getOfferDetails, id]);
 
-    console.log({ selectedOffer });
     useEffect(() => {
         if (selectedOffer) setOfferDetails(selectedOffer);
     }, [selectedOffer]);

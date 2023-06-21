@@ -234,7 +234,6 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log({ state });
     return state;
 };
 const mapDispatchToProps = (dispatch) => ({

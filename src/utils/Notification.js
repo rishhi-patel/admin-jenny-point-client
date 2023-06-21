@@ -1,7 +1,6 @@
 import { NotificationManager } from 'react-notifications';
 
 const Notification = (type, message) => {
-    console.log({ type });
     switch (type) {
         case 'info':
             NotificationManager.info(message);

@@ -16,7 +16,6 @@ const formateData = (data) => {
 
     // Loop through each object in the data array
     const processedData = data.map((obj) => {
-        console.log({ obj });
         // Create a new object to store processed values
         const processedObj = {};
         // Check each field and assign default value if not present
