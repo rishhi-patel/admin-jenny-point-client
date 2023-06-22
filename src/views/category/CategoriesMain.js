@@ -34,6 +34,7 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router';
 import CustomInput from 'views/customerDetails/CustomInput';
 import SearchIcon from '@mui/icons-material/Search';
+import DeleteCategoryModal from './CategoryDeleteModal';
 
 const StyledTable = styled(Table)(() => ({
     whiteSpace: 'pre',
@@ -47,6 +48,7 @@ const StyledTable = styled(Table)(() => ({
 
 const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById }) => {
     const navigate = useNavigate();
+    const [modalState, setmodalState] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -101,7 +103,7 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
                     <MenuItem
                         onClick={() => {
                             setAnchorEl(null);
-                            deleteCategoryById(category._id);
+                            setmodalState(true);
                         }}
                     >
                         <DeleteIcon color="error" sx={{ mr: 1 }} />
@@ -109,6 +111,7 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
                     </MenuItem>
                 </Menu>
             </TableCell>
+            <DeleteCategoryModal open={modalState} setOpen={setmodalState} confirmDelete={() => deleteCategoryById(category._id)} />
         </TableRow>
     );
 };
