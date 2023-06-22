@@ -33,7 +33,7 @@ const ProductDetails = ({ getProductDetails, selectedProduct, loading, updatePro
     });
 
     useEffect(() => {
-        getProductDetails(id);
+        getProductDetails(id + '?lookup=1');
     }, [getProductDetails, id]);
 
     useEffect(() => {

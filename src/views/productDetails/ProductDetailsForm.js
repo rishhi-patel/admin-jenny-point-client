@@ -33,7 +33,6 @@ const shifts = [
 ];
 
 export default function ProductDetailsForm({ productDetails, readOnly, updateProduct, setProductDetails, createNewProduct }) {
-    //TAB STATES
     const navigate = useNavigate();
     const { images, category, subCategory: sub, brand } = productDetails;
 
@@ -54,7 +53,7 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
             });
             setBrandList(
                 unique.map((elem) => {
-                    return { value: elem.name, label: elem.name };
+                    return { value: elem._id, label: elem.name };
                 })
             );
         })();
@@ -72,7 +71,7 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
             });
             setcategoryList(
                 unique.map((elem) => {
-                    return { value: elem.name, label: elem.name };
+                    return { value: elem._id, label: elem.name };
                 })
             );
         })();
@@ -84,8 +83,8 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
             if (keyword) {
                 const {
                     data: { data }
-                } = await API.get('/category', { params: { keyword } });
-                const { subCategory } = data[0];
+                } = await API.get(`/category/${keyword}`, { params: { keyword } });
+                const { subCategory } = data;
                 const list = [{ value: sub, label: sub }, ...subCategory];
                 const unique = list.filter((obj, index) => {
                     return index === list.findIndex((o) => obj.id === o.id && obj.name === o.name);
@@ -93,7 +92,7 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
 
                 setsubCategories(
                     unique.map((elem) => {
-                        return { value: elem.name, label: elem.name };
+                        return { value: elem._id, label: elem.name };
                     })
                 );
             }
@@ -210,7 +209,6 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                                             onBlur={handleBlur}
                                             onChange={(e) => {
                                                 handleChange(e);
-                                                setActiveCategory(e.target.value);
                                             }}
                                             disabled={readOnly}
                                             title="Brand"
@@ -236,6 +234,9 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                                             onChange={(e) => {
                                                 handleChange(e);
                                                 setActiveCategory(e.target.value);
+                                                setProductDetails((oldState) => {
+                                                    return { ...oldState, subCategory: '' };
+                                                });
                                             }}
                                             disabled={readOnly}
                                             title="Category"
