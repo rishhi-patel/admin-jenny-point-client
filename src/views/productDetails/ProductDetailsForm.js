@@ -232,11 +232,11 @@ export default function ProductDetailsForm({ productDetails, readOnly, updatePro
                                             name="category"
                                             onBlur={handleBlur}
                                             onChange={(e) => {
-                                                handleChange(e);
                                                 setActiveCategory(e.target.value);
                                                 setProductDetails((oldState) => {
-                                                    return { ...oldState, subCategory: '' };
+                                                    return { ...values, category: e.target.value, subCategory: '' };
                                                 });
+                                                handleChange(e);
                                             }}
                                             disabled={readOnly}
                                             title="Category"
