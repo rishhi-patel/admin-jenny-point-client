@@ -58,6 +58,8 @@ const CandidateRows = ({ category, i, updateSelectedCategory, deleteCategoryById
         setAnchorEl(null);
     };
 
+    console.log(category);
+
     return (
         <TableRow>
             <TableCell align="center" style={{ paddingLeft: 16 }}>

@@ -35,6 +35,8 @@ export const Upload = ({ imgData, updateImage, index, disabled = false, error, v
             headers
         });
 
+        console.log(data, 'dataupload');
+
         updateImage((oldState) => {
             const imgs = [...oldState.images];
             imgs.splice(index, 1, data);

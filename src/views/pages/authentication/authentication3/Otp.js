@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import Logo from 'ui-component/Logo';
 import AuthCardWrapper from '../AuthCardWrapper';
 import { generateOTP, verifyOTP } from 'store/actions/userActions';
+import bgImg from 'assets/images/auth/auth-bg.jpg';
 
 const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
     const theme = useTheme();
@@ -33,10 +34,18 @@ const Otp = ({ sendOtp, verifyUserOtp, ...others }) => {
                     direction="column"
                     justifyContent="flex-end"
                     sx={{ minHeight: '100vh' }}
+                    // style={{
+                    //     background: 'url(https://newjennypoint.jennypoint.com/assets/images/others/login-2.png)',
+                    //     height: '100%',
+                    //     width: '100%',
+                    //     backgroundRepeat: 'no-repeat',
+                    //     backgroundSize: 'contain',
+                    //     backgroundPosition: 'right'
+                    // }}
                     style={{
-                        background: 'url(https://newjennypoint.jennypoint.com/assets/images/others/login-2.png)',
+                        background: `url(${bgImg})`,
                         height: '100%',
-                        width: '100%',
+                        width: '110%',
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'contain',
                         backgroundPosition: 'right'
